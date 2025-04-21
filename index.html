@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cartas de Invitacion</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #050505;
+        --secondary: #cff302;
+        --bg: url("https://smartgs.com.mx/wp-content/uploads/2022/05/iasgd1-1080x675.jpg");
+        --sidebar-bg: linear-gradient(180deg, #1103cc 0%, rgb(0, 0, 12) 100%);
+        --radius: 1px 30px 30px;
+        --transition: 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        --sidebar-width: 64px; /* Reducido de 80px */
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        display: grid;
+        grid-template-columns: var(--sidebar-width) 1fr;
+        height: 100vh;
+        font-family: "Inter Tight", sans-serif;
+        background: var(--bg);
+        overflow: hidden;
+      }
+
+      /* Animaciones */
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      @keyframes particle {
+        0% {
+          transform: translateY(0) scale(0);
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(-50px) scale(1);
+          opacity: 0;
+        }
+      }
+
+      @keyframes checkmark {
+        0% {
+          stroke-dashoffset: 50;
+        }
+        100% {
+          stroke-dashoffset: 0;
+        }
+      }
+
+      @keyframes buttonEntrance {
+        0% {
+          transform: translateY(20px) scale(0.8);
+          opacity: 0;
+        }
+        100% {
+          transform: translateY(0) scale(1);
+          opacity: 1;
+        }
+      }
+
+      @keyframes tooltipEntrance {
+        0% {
+          opacity: 0;
+          transform: translateX(10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+
+      .sidebar {
+        background: var(--sidebar-bg);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 1rem 0;
+        gap: 1.2rem;
+        position: relative;
+        backdrop-filter: blur(8px);
+        border-right: 1px solid rgba(255, 255, 255, 0.08);
+        z-index: 1000;
+      }
+
+      .nav-btn {
+        width: 40px; /* Reducido de 48px */
+        height: 40px; /* Reducido de 48px */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 12px;
+        background: transparent;
+        border: 0;
+        color: #cbd5e1;
+        cursor: pointer;
+        position: relative;
+        transition: var(--transition);
+        transform-origin: center;
+        animation: buttonEntrance 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+      }
+
+      .nav-btn .material-icons {
+        font-size: 20px; /* Reducido de 24px */
+      }
+
+      .nav-btn:nth-child(1) {
+        animation-delay: 0.2s;
+      }
+      .nav-btn:nth-child(2) {
+        animation-delay: 0.4s;
+      }
+
+      .nav-btn::before {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border-radius: 25px;
+        background: var(--primary);
+        opacity: 0;
+        transition: var(--transition);
+        z-index: -1;
+      }
+
+      .nav-btn:hover {
+        color: rgb(255, 255, 255);
+        transform: translateY(-2px);
+      }
+
+      .nav-btn:hover::after {
+        content: attr(data-tooltip);
+        position: absolute;
+        left: calc(100% + 15px);
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(0, 0, 0, 0.95);
+        color: rgb(255, 255, 255);
+        padding: 6px 10px;
+        border-radius: 16px;
+        font-size: 0.8rem;
+        font-weight: 500;
+        white-space: nowrap;
+        pointer-events: none;
+        animation: tooltipEntrance 0.3s ease-out;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+          0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        backdrop-filter: blur(4px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .nav-btn.active {
+        color: white;
+        transform: scale(1.1);
+        filter: drop-shadow(0 4px 12px rgba(99, 102, 241, 0.3));
+      }
+
+      .nav-btn.active::before {
+        opacity: 1;
+        transform: scale(1.05);
+      }
+
+      .frame-container {
+        height: calc(100vh - 40px);
+        background: white;
+        border-radius: var(--radius);
+        margin: 20px;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+        overflow: hidden;
+        position: relative;
+      }
+
+      .sidebar-logo {
+        position: absolute;
+        bottom: 50px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        opacity: 0.7;
+        transition: var(--transition);
+        transform: translateY(0); /* Cambiado de 30% a 0 */
+      }
+
+      iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+        opacity: 1;
+        transition: opacity 0.6s ease;
+      }
+
+      .loading-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.9);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        backdrop-filter: blur(8px);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.4s ease;
+        z-index: 1000;
+      }
+
+      .loading-overlay.active {
+        opacity: 1;
+        pointer-events: all;
+      }
+
+      .loader {
+        width: 60px;
+        height: 60px;
+        position: relative;
+      }
+
+      .loader-circle {
+        width: 100%;
+        height: 100%;
+        border: 3px solid transparent;
+        border-top-color: var(--primary);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        position: relative;
+      }
+
+      .loader-circle::after {
+        content: "";
+        position: absolute;
+        top: 5px;
+        left: 5px;
+        right: 5px;
+        bottom: 5px;
+        border: 3px solid transparent;
+        border-top-color: var(--secondary);
+        border-radius: 50%;
+        animation: spin 1.5s linear infinite reverse;
+      }
+
+      .loader-particles {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+      }
+
+      .loader-particle {
+        position: absolute;
+        width: 4px;
+        height: 4px;
+        background: var(--primary);
+        border-radius: 50%;
+        animation: particle 1s infinite;
+      }
+
+      .checkmark {
+        width: 60px;
+        height: 60px;
+        opacity: 0;
+        transform: scale(0);
+        transition: all 0.4s ease;
+      }
+
+      .checkmark path {
+        stroke-dasharray: 50;
+        stroke-dashoffset: 50;
+      }
+
+      .loaded .checkmark {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      .loaded .checkmark path {
+        animation: checkmark 0.6s ease-out forwards;
+      }
+
+      @media (max-width: 768px) {
+        body {
+          grid-template-columns: 1fr;
+          grid-template-rows: auto 1fr;
+        }
+
+        .sidebar {
+          flex-direction: row;
+          justify-content: center;
+          padding: 1rem;
+          height: 62px; /* Reducido de 72px */
+          border-right: none;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .nav-btn:hover::after {
+          left: 50%;
+          top: calc(100% + 8px);
+          transform: translateX(-50%);
+        }
+
+        .sidebar-logo {
+          display: none; /* Ocultar logo en móviles */
+        }
+
+        .frame-container {
+          margin: 12px;
+          height: calc(100vh - 86px); /* Ajustado por nuevo tamaño */
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <aside class="sidebar">
+      <button id="btnDiplomado" class="nav-btn active" data-tooltip="Diplomado">
+        <span class="material-icons">school</span>
+      </button>
+      <button id="btnMaestria" class="nav-btn" data-tooltip="Maestría">
+        <span class="material-icons">auto_stories</span>
+      </button>
+      <button id="btn" class="nav-btn" data-tooltip="Ir a Drive">
+        <span class="material-icons">drive_folder_upload</span>
+      </button>
+
+      <!-- Logo añadido -->
+      <div class="sidebar-logo">
+        <img
+          src="https://www.esam.edu.bo/img/logo_esam_principal.png"
+          alt="Logo ESAM"
+          style="
+            width: 48px;
+            height: 48px;
+            object-fit: contain;
+            filter: brightness(0) invert(1);
+          "
+        />
+      </div>
+    </aside>
+
+    <main>
+      <div class="frame-container">
+        <div class="loading-overlay">
+          <div class="loader">
+            <div class="loader-circle"></div>
+            <div class="loader-particles">
+              <div
+                class="loader-particle"
+                style="left: 15%; animation-delay: 0.1s"
+              ></div>
+              <div
+                class="loader-particle"
+                style="left: 30%; animation-delay: 0.3s"
+              ></div>
+              <div
+                class="loader-particle"
+                style="left: 45%; animation-delay: 0.5s"
+              ></div>
+              <div
+                class="loader-particle"
+                style="left: 60%; animation-delay: 0.7s"
+              ></div>
+              <div
+                class="loader-particle"
+                style="left: 75%; animation-delay: 0.9s"
+              ></div>
+            </div>
+            <svg
+              class="checkmark"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="var(--primary)"
+              stroke-width="2"
+            >
+              <path
+                d="M20 6L9 17l-5-5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </div>
+        </div>
+        <iframe
+          id="sheetFrame"
+          src="https://docs.google.com/spreadsheets/d/1HBgccBnUsVuS1Cj41uefAbynjbyl6RpetMvBOoPM_u4/edit?rm=minimal"
+          allowfullscreen
+        ></iframe>
+      </div>
+    </main>
+
+    <script>
+      const URLs = {
+        diplomado:
+          "https://docs.google.com/spreadsheets/d/1HBgccBnUsVuS1Cj41uefAbynjbyl6RpetMvBOoPM_u4/edit?rm=embedded",
+        maestria:
+          "https://docs.google.com/spreadsheets/d/1LWGrzKLI_oHTVpkn3d_WD2HCJYjs4FuolcI6bwbvJEk/edit?rm=embedded",
+      };
+
+      const frame = document.getElementById("sheetFrame");
+      const buttons = document.querySelectorAll(".nav-btn");
+      const loadingOverlay = document.querySelector(".loading-overlay");
+
+      async function switchSheet(type) {
+        loadingOverlay.classList.add("active");
+        frame.style.opacity = 0;
+        await new Promise((resolve) => setTimeout(resolve, 300));
+        frame.src = URLs[type];
+
+        buttons.forEach((btn) => {
+          btn.classList.toggle(
+            "active",
+            btn.id === `btn${type.charAt(0).toUpperCase() + type.slice(1)}`
+          );
+        });
+
+        frame.onload = () => {
+          loadingOverlay.classList.add("loaded");
+          setTimeout(() => {
+            loadingOverlay.classList.remove("active", "loaded");
+            frame.style.opacity = 1;
+          }, 1000);
+        };
+      }
+
+      buttons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const type = btn.id.replace("btn", "").toLowerCase();
+          switchSheet(type);
+        });
+      });
+    </script>
+  </body>
+</html>
