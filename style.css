@@ -25,7 +25,8 @@
 .link_404 {
     color: #fff !important;
     padding: 10px 20px;
-    background: #09013a;
+    background: #000000;
+    border-radius: 1px 15px 95px 35px;
     margin: 20px 0;
     display: inline-block;
 }
