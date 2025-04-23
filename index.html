@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -19,19 +19,35 @@
     />
     <style>
       :root {
-        --primary: #050505;
-        --secondary: #cff302;
-        --bg: url("https://smartgs.com.mx/wp-content/uploads/2022/05/iasgd1-1080x675.jpg");
-        --sidebar-bg: linear-gradient(180deg, #1103cc 0%, rgb(0, 0, 12) 100%);
+        --primary-color: #050505;
+        --secondary-color: #fafafa;
+        --bg-color: #ffffff;
+        --text-color: #333333;
+        --sidebar-bg: linear-gradient(180deg, #030125 0%, rgb(2, 2, 2) 100%);
+        --frame-shadow: 0 25px 50px 12px rgb(3, 3, 241);
         --radius: 1px 30px 30px;
         --transition: 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-        --sidebar-width: 64px; /* Reducido de 80px */
+        --sidebar-width: 64px;
+        --loader-primary: #050505;
+        --loader-secondary: #eeeeee;
+      }
+
+      [data-theme="light"] {
+        --primary-color: #ffffff;
+        --secondary-color: #010008;
+        --bg-color: #f5f5f5;
+        --text-color: #ffffff;
+        --sidebar-bg: linear-gradient(180deg, #024e40 0%, #7da0ec 100%);
+        --frame-shadow: 0 25px 50px 12px rgb(107, 218, 171);
+        --loader-primary: #cff302;
+        --loader-secondary: #ffffff;
       }
 
       * {
         box-sizing: border-box;
         margin: 0;
         padding: 0;
+        transition: background-color 0.3s ease, color 0.3s ease;
       }
 
       body {
@@ -39,11 +55,11 @@
         grid-template-columns: var(--sidebar-width) 1fr;
         height: 100vh;
         font-family: "Inter Tight", sans-serif;
-        background: var(--bg);
+        background-color: var(--bg-color);
+        color: var(--text-color);
         overflow: hidden;
       }
 
-      /* Animaciones */
       @keyframes spin {
         0% {
           transform: rotate(0deg);
@@ -104,20 +120,20 @@
         gap: 1.2rem;
         position: relative;
         backdrop-filter: blur(8px);
-        border-right: 1px solid rgba(253, 6, 6, 0.08);
+        border-right: 2px solid rgba(255, 255, 255);
         z-index: 1000;
       }
 
       .nav-btn {
-        width: 40px; /* Reducido de 48px */
-        height: 40px; /* Reducido de 48px */
+        width: 40px;
+        height: 40px;
         display: flex;
         align-items: center;
         justify-content: center;
         border-radius: 12px;
         background: transparent;
         border: 0;
-        color: #000000;
+        color: var(--secondary-color);
         cursor: pointer;
         position: relative;
         transition: var(--transition);
@@ -126,7 +142,7 @@
       }
 
       .nav-btn .material-icons {
-        font-size: 20px; /* Reducido de 24px */
+        font-size: 20px;
       }
 
       .nav-btn:nth-child(1) {
@@ -142,14 +158,14 @@
         width: 100%;
         height: 100%;
         border-radius: 25px;
-        background: var(--primary);
+        background: var(--primary-color);
         opacity: 0;
         transition: var(--transition);
         z-index: -1;
       }
 
       .nav-btn:hover {
-        color: rgb(255, 255, 255);
+        color: var(--secondary-color);
         transform: translateY(-2px);
       }
 
@@ -160,7 +176,7 @@
         top: 50%;
         transform: translateY(-50%);
         background: rgba(0, 0, 0, 0.95);
-        color: rgb(255, 255, 255);
+        color: cadetblue;
         padding: 6px 10px;
         border-radius: 16px;
         font-size: 0.8rem;
@@ -175,7 +191,7 @@
       }
 
       .nav-btn.active {
-        color: white;
+        color: var(--secondary-color);
         transform: scale(1.1);
         filter: drop-shadow(0 4px 12px rgba(99, 102, 241, 0.3));
       }
@@ -187,10 +203,10 @@
 
       .frame-container {
         height: calc(100vh - 40px);
-        background: white;
+        background: var(--loader-secondary);
         border-radius: var(--radius);
         margin: 20px;
-        box-shadow: 0 25px 50px 12px rgb(5, 3, 148);
+        box-shadow: var(--frame-shadow);
         overflow: hidden;
         position: relative;
       }
@@ -203,7 +219,15 @@
         justify-content: center;
         opacity: 0.7;
         transition: var(--transition);
-        transform: translateY(0); /* Cambiado de 30% a 0 */
+        transform: translateY(0);
+      }
+
+      .sidebar-logo img {
+        filter: brightness(0) invert(1);
+      }
+
+      [data-theme="light"] .sidebar-logo img {
+        filter: none;
       }
 
       iframe {
@@ -246,7 +270,7 @@
         width: 100%;
         height: 100%;
         border: 3px solid transparent;
-        border-top-color: var(--primary);
+        border-top-color: var(--loader-primary);
         border-radius: 50%;
         animation: spin 1s linear infinite;
         position: relative;
@@ -260,7 +284,7 @@
         right: 5px;
         bottom: 5px;
         border: 3px solid transparent;
-        border-top-color: var(--secondary);
+        border-top-color: #1103cc;
         border-radius: 50%;
         animation: spin 1.5s linear infinite reverse;
       }
@@ -272,12 +296,12 @@
         top: 0;
         left: 0;
       }
-      /* punto de animaciones ubiendoo en cargando */
+
       .loader-particle {
         position: absolute;
         width: 9px;
         height: 9px;
-        background: #1103cc;
+        background: #fa7a01;
         border-radius: 50%;
         animation: particle 1s infinite;
       }
@@ -314,7 +338,7 @@
           flex-direction: row;
           justify-content: center;
           padding: 1rem;
-          height: 62px; /* Reducido de 72px */
+          height: 62px;
           border-right: none;
           border-bottom: 1px solid rgba(255, 255, 255, 0.08);
         }
@@ -326,138 +350,40 @@
         }
 
         .sidebar-logo {
-          display: none; /* Ocultar logo en móviles */
+          display: none;
         }
 
         .frame-container {
           margin: 12px;
-          height: calc(100vh - 86px); /* Ajustado por nuevo tamaño */
+          height: calc(100vh - 86px);
         }
       }
-    </style>
-  </head>
-  <body>
-    <aside class="sidebar">
-      <button id="btnDiplomado" class="nav-btn active" data-tooltip="Diplomado">
-        <span class="material-icons">school</span>
-      </button>
-      <button id="btnMaestria" class="nav-btn" data-tooltip="Maestría">
-        <span class="material-icons">auto_stories</span>
-      </button>
-      <a href="404.html">
-        <button id="btn" class="nav-btn" data-tooltip="Ir a Drive">
-          <span class="material-icons">drive_folder_upload</span>
-        </button>
-      </a>
 
-      <!-- Logo añadido -->
-      <div class="sidebar-logo">
-        <img
-          src="https://www.esam.edu.bo/img/logo_esam_principal.png"
-          alt="Logo ESAM"
-          style="
-            width: 48px;
-            height: 48px;
-            object-fit: contain;
-            filter: brightness(0) invert(1);
-          "
-        />
-      </div>
-    </aside>
-
-    <main>
-      <div class="frame-container">
-        <div class="loading-overlay">
-          <div class="loader">
-            <div class="loader-circle"></div>
-            <div class="loader-particles">
-              <div
-                class="loader-particle"
-                style="left: 15%; animation-delay: 0.1s"
-              ></div>
-              <div
-                class="loader-particle"
-                style="left: 30%; animation-delay: 0.3s"
-              ></div>
-              <div
-                class="loader-particle"
-                style="left: 45%; animation-delay: 0.5s"
-              ></div>
-              <div
-                class="loader-particle"
-                style="left: 60%; animation-delay: 0.7s"
-              ></div>
-              <div
-                class="loader-particle"
-                style="left: 75%; animation-delay: 0.9s"
-              ></div>
-            </div>
-            <svg
-              class="checkmark"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="var(--primary)"
-              stroke-width="2"
-            >
-              <path
-                d="M20 6L9 17l-5-5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-          </div>
-        </div>
-        <iframe
-          id="sheetFrame"
-          src="https://docs.google.com/spreadsheets/d/1HBgccBnUsVuS1Cj41uefAbynjbyl6RpetMvBOoPM_u4/edit?rm=minimal"
-          allowfullscreen
-        ></iframe>
-      </div>
-    </main>
-
-    <script>
-      const URLs = {
-        diplomado:
-          "https://docs.google.com/spreadsheets/d/1HBgccBnUsVuS1Cj41uefAbynjbyl6RpetMvBOoPM_u4/edit?rm=embedded",
-        maestria:
-          "https://docs.google.com/spreadsheets/d/1LWGrzKLI_oHTVpkn3d_WD2HCJYjs4FuolcI6bwbvJEk/edit?rm=embedded",
-      };
-
-      const frame = document.getElementById("sheetFrame");
-      const buttons = document.querySelectorAll(".nav-btn");
-      const loadingOverlay = document.querySelector(".loading-overlay");
-
-      async function switchSheet(type) {
-        loadingOverlay.classList.add("active");
-        frame.style.opacity = 0;
-        await new Promise((resolve) => setTimeout(resolve, 300));
-        frame.src = URLs[type];
-
-        buttons.forEach((btn) => {
-          btn.classList.toggle(
-            "active",
-            btn.id === `btn${type.charAt(0).toUpperCase() + type.slice(1)}`
-          );
-        });
-
-        frame.onload = () => {
-          loadingOverlay.classList.add("loaded");
-          setTimeout(() => {
-            loadingOverlay.classList.remove("active", "loaded");
-            frame.style.opacity = 1;
-          }, 1000);
-        };
+      .theme-toggle {
+        position: absolute;
+        bottom: 20px;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: var(--primary-color);
+        color: var(--secondary-color);
+        border: none;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        transition: var(--transition);
       }
 
-      buttons.forEach((btn) => {
-        btn.addEventListener("click", () => {
-          const type = btn.id.replace("btn", "").toLowerCase();
-          switchSheet(type);
-        });
-      });
-    </script>
-    <style>
-      /* Añade estos estilos */
+      .theme-toggle:hover {
+        transform: scale(1.1) rotate(180deg);
+      }
+
+      .theme-toggle .material-icons {
+        font-size: 20px;
+      }
+
       .access-message {
         position: fixed;
         top: 50%;
@@ -577,6 +503,83 @@
         transition: all 0.4s ease-out;
       }
     </style>
+  </head>
+  <body>
+    <aside class="sidebar">
+      <button id="btnDiplomado" class="nav-btn active" data-tooltip="Diplomado">
+        <span class="material-icons">school</span>
+      </button>
+      <button id="btnMaestria" class="nav-btn" data-tooltip="Maestría">
+        <span class="material-icons">auto_stories</span>
+      </button>
+      <a href="404.html">
+        <button id="btn" class="nav-btn" data-tooltip="Ir a Drive">
+          <span class="material-icons">drive_folder_upload</span>
+        </button>
+      </a>
+
+      <button class="theme-toggle" id="themeToggle">
+        <span class="material-icons">dark_mode</span>
+      </button>
+
+      <div class="sidebar-logo">
+        <img
+          src="https://www.esam.edu.bo/img/logo_esam_principal.png"
+          alt="Logo ESAM"
+          style="width: 48px; height: 48px; object-fit: contain"
+        />
+      </div>
+    </aside>
+
+    <main>
+      <div class="frame-container">
+        <div class="loading-overlay">
+          <div class="loader">
+            <div class="loader-circle"></div>
+            <div class="loader-particles">
+              <div
+                class="loader-particle"
+                style="left: 15%; animation-delay: 0.1s"
+              ></div>
+              <div
+                class="loader-particle"
+                style="left: 30%; animation-delay: 0.3s"
+              ></div>
+              <div
+                class="loader-particle"
+                style="left: 45%; animation-delay: 0.5s"
+              ></div>
+              <div
+                class="loader-particle"
+                style="left: 60%; animation-delay: 0.7s"
+              ></div>
+              <div
+                class="loader-particle"
+                style="left: 75%; animation-delay: 0.9s"
+              ></div>
+            </div>
+            <svg
+              class="checkmark"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="var(--loader-primary)"
+              stroke-width="2"
+            >
+              <path
+                d="M20 6L9 17l-5-5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </div>
+        </div>
+        <iframe
+          id="sheetFrame"
+          src="https://docs.google.com/spreadsheets/d/1HBgccBnUsVuS1Cj41uefAbynjbyl6RpetMvBOoPM_u4/edit?rm=minimal"
+          allowfullscreen
+        ></iframe>
+      </div>
+    </main>
 
     <div class="access-message">
       <div class="message-icon-container">
@@ -596,5 +599,72 @@
         </a>
       </div>
     </div>
+
+    <script>
+      // Sistema de temas
+      const themeToggle = document.getElementById("themeToggle");
+      const body = document.body;
+      const currentTheme = localStorage.getItem("theme");
+
+      if (currentTheme) {
+        body.setAttribute("data-theme", currentTheme);
+        updateThemeIcon();
+      }
+
+      themeToggle.addEventListener("click", () => {
+        const isDark = body.getAttribute("data-theme") === "dark";
+        body.setAttribute("data-theme", isDark ? "light" : "dark");
+        localStorage.setItem("theme", isDark ? "light" : "dark");
+        updateThemeIcon();
+      });
+
+      function updateThemeIcon() {
+        const isDark = body.getAttribute("data-theme") === "dark";
+        themeToggle.innerHTML = isDark
+          ? '<span class="material-icons">dark_mode</span>'
+          : '<span class="material-icons">light_mode</span>';
+      }
+
+      // Sistema de iframes
+      const URLs = {
+        diplomado:
+          "https://docs.google.com/spreadsheets/d/1HBgccBnUsVuS1Cj41uefAbynjbyl6RpetMvBOoPM_u4/edit?rm=embedded",
+        maestria:
+          "https://docs.google.com/spreadsheets/d/1LWGrzKLI_oHTVpkn3d_WD2HCJYjs4FuolcI6bwbvJEk/edit?rm=embedded",
+      };
+
+      const frame = document.getElementById("sheetFrame");
+      const buttons = document.querySelectorAll(".nav-btn");
+      const loadingOverlay = document.querySelector(".loading-overlay");
+
+      async function switchSheet(type) {
+        loadingOverlay.classList.add("active");
+        frame.style.opacity = 0;
+        await new Promise((resolve) => setTimeout(resolve, 300));
+        frame.src = URLs[type];
+
+        buttons.forEach((btn) => {
+          btn.classList.toggle(
+            "active",
+            btn.id === `btn${type.charAt(0).toUpperCase() + type.slice(1)}`
+          );
+        });
+
+        frame.onload = () => {
+          loadingOverlay.classList.add("loaded");
+          setTimeout(() => {
+            loadingOverlay.classList.remove("active", "loaded");
+            frame.style.opacity = 1;
+          }, 1000);
+        };
+      }
+
+      buttons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const type = btn.id.replace("btn", "").toLowerCase();
+          if (type) switchSheet(type);
+        });
+      });
+    </script>
   </body>
 </html>
