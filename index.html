@@ -23,12 +23,12 @@
         --secondary-color: #fafafa;
         --bg-color: #ffffff;
         --text-color: #333333;
-        --sidebar-bg: linear-gradient(180deg, #030125 0%, rgb(2, 2, 2) 100%);
+        --sidebar-bg: linear-gradient(180deg, #000000 0%, rgb(0, 26, 255) 120%);
         --frame-shadow: 0 25px 50px 12px rgb(3, 3, 241);
         --radius: 1px 30px 30px;
         --transition: 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
         --sidebar-width: 64px;
-        --loader-primary: #050505;
+        --loader-primary: #f7d205;
         --loader-secondary: #eeeeee;
       }
 
@@ -37,7 +37,7 @@
         --secondary-color: #010008;
         --bg-color: #f5f5f5;
         --text-color: #ffffff;
-        --sidebar-bg: linear-gradient(180deg, #024e40 0%, #7da0ec 100%);
+        --sidebar-bg: linear-gradient(180deg, #523500 0%, #0051ff 100%);
         --frame-shadow: 0 25px 50px 12px rgb(107, 218, 171);
         --loader-primary: #cff302;
         --loader-secondary: #ffffff;
@@ -625,7 +625,7 @@
           : '<span class="material-icons">light_mode</span>';
       }
 
-      // Sistema de iframes
+      // URLs predefinidas
       const URLs = {
         diplomado:
           "https://docs.google.com/spreadsheets/d/1HBgccBnUsVuS1Cj41uefAbynjbyl6RpetMvBOoPM_u4/edit?rm=embedded",
@@ -633,38 +633,66 @@
           "https://docs.google.com/spreadsheets/d/1LWGrzKLI_oHTVpkn3d_WD2HCJYjs4FuolcI6bwbvJEk/edit?rm=embedded",
       };
 
+      // Elementos del DOM
       const frame = document.getElementById("sheetFrame");
       const buttons = document.querySelectorAll(".nav-btn");
       const loadingOverlay = document.querySelector(".loading-overlay");
 
-      async function switchSheet(type) {
-        loadingOverlay.classList.add("active");
-        frame.style.opacity = 0;
-        await new Promise((resolve) => setTimeout(resolve, 300));
-        frame.src = URLs[type];
+      // Precargar los iframes
+      const preloadFrame = (url) => {
+        const hiddenFrame = document.createElement("iframe");
+        hiddenFrame.style.display = "none";
+        hiddenFrame.src = url;
+        document.body.appendChild(hiddenFrame);
+      };
 
+      // Precargar todos los frames al iniciar
+      Object.values(URLs).forEach(preloadFrame);
+
+      // Función optimizada para cambiar de hoja
+      async function switchSheet(type) {
+        // Actualizar botones inmediatamente
         buttons.forEach((btn) => {
-          btn.classList.toggle(
-            "active",
-            btn.id === `btn${type.charAt(0).toUpperCase() + type.slice(1)}`
-          );
+          const targetType = `btn${
+            type.charAt(0).toUpperCase() + type.slice(1)
+          }`;
+          btn.classList.toggle("active", btn.id === targetType);
         });
 
-        frame.onload = () => {
-          loadingOverlay.classList.add("loaded");
-          setTimeout(() => {
-            loadingOverlay.classList.remove("active", "loaded");
-            frame.style.opacity = 1;
-          }, 1000);
-        };
+        // Mostrar loader y ocultar frame
+        loadingOverlay.classList.add("active");
+        frame.style.opacity = "0";
+
+        try {
+          // Cargar el frame con timeout de 5 segundos
+          await Promise.race([
+            new Promise((resolve) => {
+              frame.src = URLs[type];
+              frame.onload = resolve;
+            }),
+            new Promise((_, reject) =>
+              setTimeout(() => reject(new Error("Timeout")), 1000)
+            ),
+          ]);
+        } catch (error) {
+          console.error("Error loading frame:", error);
+        } finally {
+          // Ocultar loader y mostrar frame
+          loadingOverlay.classList.remove("active", "loaded");
+          frame.style.opacity = "1";
+        }
       }
 
+      // Event listeners optimizados
       buttons.forEach((btn) => {
         btn.addEventListener("click", () => {
           const type = btn.id.replace("btn", "").toLowerCase();
-          if (type) switchSheet(type);
+          if (type && URLs[type]) switchSheet(type);
         });
       });
+
+      // Carga inicial inmediata
+      frame.src = URLs.diplomado;
     </script>
   </body>
 </html>
