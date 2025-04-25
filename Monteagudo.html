@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cartas de Invitacion</title>
+    <link
+      rel="icon"
+      href="https://i.ibb.co/PZhMy4bD/123.png"
+      type="image/png"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary-color: #050505;
+        --secondary-color: #fafafa;
+        --bg-color: #ffffff;
+        --text-color: #333333;
+        --sidebar-bg: linear-gradient(180deg, #000000 0%, rgb(0, 0, 0) 120%);
+        --frame-shadow: 0 25px 50px 12px rgb(3, 3, 241);
+        --radius: 1px 30px 30px;
+        --transition: 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        --sidebar-width: 64px;
+        --loader-primary: #f7d205;
+        --loader-secondary: #eeeeee;
+      }
+
+      [data-theme="light"] {
+        --primary-color: #ffffff;
+        --secondary-color: #010008;
+        --bg-color: #f5f5f5;
+        --text-color: #ffffff;
+        --sidebar-bg: linear-gradient(180deg, #dbdbdb 0%, #0552f7 100%);
+        --frame-shadow: 0 25px 50px 12px rgb(107, 218, 171);
+        --loader-primary: #cff302;
+        --loader-secondary: #ffffff;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
+
+      body {
+        display: grid;
+        grid-template-columns: var(--sidebar-width) 1fr;
+        height: 100vh;
+        font-family: "Inter Tight", sans-serif;
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        overflow: hidden;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      @keyframes particle {
+        0% {
+          transform: translateY(0) scale(0);
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(-50px) scale(1);
+          opacity: 0;
+        }
+      }
+
+      @keyframes checkmark {
+        0% {
+          stroke-dashoffset: 50;
+        }
+        100% {
+          stroke-dashoffset: 0;
+        }
+      }
+
+      @keyframes buttonEntrance {
+        0% {
+          transform: translateY(20px) scale(0.8);
+          opacity: 0;
+        }
+        100% {
+          transform: translateY(0) scale(1);
+          opacity: 1;
+        }
+      }
+
+      @keyframes tooltipEntrance {
+        0% {
+          opacity: 0;
+          transform: translateX(10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+
+      .sidebar {
+        background: var(--sidebar-bg);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 1rem 0;
+        gap: 1.2rem;
+        position: relative;
+        backdrop-filter: blur(8px);
+        border-right: 2px solid rgba(255, 255, 255);
+        z-index: 10%;
+      }
+
+      .nav-btn {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 12px;
+        background: transparent;
+        border: 0;
+        color: var(--secondary-color);
+        cursor: pointer;
+        position: relative;
+        transition: var(--transition);
+        transform-origin: center;
+        animation: buttonEntrance 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+      }
+
+      .nav-btn .material-icons {
+        font-size: 20px;
+      }
+
+      .nav-btn:nth-child(1) {
+        animation-delay: 0.2s;
+      }
+      .nav-btn:nth-child(2) {
+        animation-delay: 0.4s;
+      }
+
+      .nav-btn::before {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border-radius: 25px;
+        background: var(--primary-color);
+        opacity: 0;
+        transition: var(--transition);
+        z-index: -1;
+      }
+
+      .nav-btn:hover {
+        color: var(--secondary-color);
+        transform: translateY(-2px);
+      }
+
+      .nav-btn:hover::after {
+        content: attr(data-tooltip);
+        position: absolute;
+        left: calc(100% + 15px);
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(0, 0, 0, 0.95);
+        color: cadetblue;
+        padding: 6px 10px;
+        border-radius: 16px;
+        font-size: 0.8rem;
+        font-weight: 500;
+        white-space: nowrap;
+        pointer-events: none;
+        animation: tooltipEntrance 0.3s ease-out;
+        box-shadow: 0 4px 6px -1px rgba(255, 255, 255, 0.1),
+          0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        backdrop-filter: blur(4px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .nav-btn.active {
+        color: var(--secondary-color);
+        transform: scale(1.1);
+        filter: drop-shadow(0 4px 12px rgba(99, 102, 241, 0.3));
+      }
+
+      .nav-btn.active::before {
+        opacity: 1;
+        transform: scale(1.05);
+      }
+
+      .frame-container {
+        height: calc(100vh - 40px);
+        background: var(--loader-secondary);
+        border-radius: var(--radius);
+        margin: 20px;
+        box-shadow: var(--frame-shadow);
+        overflow: hidden;
+        position: relative;
+      }
+
+      .sidebar-logo {
+        position: absolute;
+        bottom: 50px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        opacity: 0.7;
+        transition: var(--transition);
+        transform: translateY(0);
+      }
+
+      .sidebar-logo img {
+        filter: brightness(0) invert(1);
+      }
+
+      [data-theme="light"] .sidebar-logo img {
+        filter: none;
+      }
+
+      iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+        opacity: 1;
+        transition: opacity 0.6s ease;
+      }
+
+      .loading-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.9);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        backdrop-filter: blur(8px);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.4s ease;
+        z-index: 1000;
+      }
+
+      .loading-overlay.active {
+        opacity: 1;
+        pointer-events: all;
+      }
+
+      .loader {
+        width: 60px;
+        height: 60px;
+        position: relative;
+      }
+
+      .loader-circle {
+        width: 100%;
+        height: 100%;
+        border: 3px solid transparent;
+        border-top-color: var(--loader-primary);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        position: relative;
+      }
+
+      .loader-circle::after {
+        content: "";
+        position: absolute;
+        top: 5px;
+        left: 5px;
+        right: 5px;
+        bottom: 5px;
+        border: 3px solid transparent;
+        border-top-color: #1103cc;
+        border-radius: 50%;
+        animation: spin 1.5s linear infinite reverse;
+      }
+
+      .loader-particles {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+      }
+
+      .loader-particle {
+        position: absolute;
+        width: 9px;
+        height: 9px;
+        background: #fa7a01;
+        border-radius: 50%;
+        animation: particle 1s infinite;
+      }
+
+      .checkmark {
+        width: 60px;
+        height: 60px;
+        opacity: 0;
+        transform: scale(0);
+        transition: all 0.4s ease;
+      }
+
+      .checkmark path {
+        stroke-dasharray: 50;
+        stroke-dashoffset: 50;
+      }
+
+      .loaded .checkmark {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      .loaded .checkmark path {
+        animation: checkmark 0.6s ease-out forwards;
+      }
+
+      @media (max-width: 768px) {
+        body {
+          grid-template-columns: 1fr;
+          grid-template-rows: auto 1fr;
+        }
+
+        .sidebar {
+          flex-direction: row;
+          justify-content: center;
+          padding: 1rem;
+          height: 62px;
+          border-right: none;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .nav-btn:hover::after {
+          left: 50%;
+          top: calc(100% + 8px);
+          transform: translateX(-50%);
+        }
+
+        .sidebar-logo {
+          display: none;
+        }
+
+        .frame-container {
+          margin: 12px;
+          height: calc(100vh - 86px);
+        }
+      }
+
+      .theme-toggle {
+        position: absolute;
+        bottom: 20px;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: var(--primary-color);
+        color: var(--secondary-color);
+        border: none;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        transition: var(--transition);
+      }
+
+      .theme-toggle:hover {
+        transform: scale(1.1) rotate(180deg);
+      }
+
+      .theme-toggle .material-icons {
+        font-size: 20px;
+      }
+
+      .access-message {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px) saturate(180%);
+        border-radius: 24px;
+        padding: 40px;
+        width: min(90%, 560px);
+        box-shadow: 0 32px 64px rgba(0, 0, 0, 0.12),
+          inset 0 0 0 1px rgba(255, 255, 255, 0.3);
+        z-index: 2000;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .access-message.active {
+        opacity: 1;
+        visibility: visible;
+        transform: translate(-50%, -50%) scale(1);
+      }
+
+      .message-icon-container {
+        position: relative;
+        width: 80px;
+        height: 80px;
+        margin: 0 auto 24px;
+      }
+
+      .message-icon {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #ff5252 0%, #d32f2f 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 8px 24px rgba(211, 47, 47, 0.25);
+        animation: iconFloat 3s ease-in-out infinite;
+      }
+
+      .message-icon .material-icons {
+        font-size: 42px;
+        color: white;
+      }
+
+      .message-title {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #1a1a1a;
+        text-align: center;
+        margin-bottom: 16px;
+        letter-spacing: -0.5px;
+      }
+
+      .message-content {
+        font-size: 1.1rem;
+        line-height: 1.6;
+        color: #4a4a4a;
+        text-align: center;
+        margin-bottom: 32px;
+        max-width: 400px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .message-contact {
+        background: rgba(245, 245, 245, 0.6);
+        padding: 20px;
+        border-radius: 12px;
+        margin-top: 24px;
+        text-align: center;
+        backdrop-filter: blur(4px);
+        border: 1px solid rgba(0, 0, 0, 0.05);
+      }
+
+      .contact-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: #2d2d2d;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        padding: 8px 16px;
+        border-radius: 8px;
+      }
+
+      .contact-link:hover {
+        background: rgba(255, 255, 255, 0.8);
+        transform: translateY(-1px);
+      }
+
+      .contact-link .material-icons {
+        font-size: 20px;
+        color: #d32f2f;
+      }
+
+      @keyframes iconFloat {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-8px);
+        }
+      }
+
+      .frame-blur {
+        filter: blur(8px);
+        opacity: 0.5;
+        pointer-events: none;
+        transition: all 0.4s ease-out;
+      }
+    </style>
+  </head>
+  <body>
+    <aside class="sidebar">
+      <button id="btnDiplomado" class="nav-btn active" data-tooltip="Diplomado">
+        <span class="material-icons">school</span>
+      </button>
+      <button id="btnMaestria" class="nav-btn" data-tooltip="Maestría">
+        <span class="material-icons">auto_stories</span>
+      </button>
+      <a href="404.html">
+        <button id="btn" class="nav-btn" data-tooltip="Ir a Drive">
+          <span class="material-icons">drive_folder_upload</span>
+        </button>
+      </a>
+
+      <button class="theme-toggle" id="themeToggle">
+        <span class="material-icons">dark_mode</span>
+      </button>
+
+      <div class="sidebar-logo">
+        <img
+          src="https://www.esam.edu.bo/img/logo_esam_principal.png"
+          alt="Logo ESAM"
+          style="width: 48px; height: 48px; object-fit: contain"
+        />
+      </div>
+    </aside>
+
+    <main>
+      <div class="frame-container">
+        <div class="loading-overlay">
+          <div class="loader">
+            <div class="loader-circle"></div>
+            <div class="loader-particles">
+              <div
+                class="loader-particle"
+                style="left: 15%; animation-delay: 0.1s"
+              ></div>
+              <div
+                class="loader-particle"
+                style="left: 30%; animation-delay: 0.3s"
+              ></div>
+              <div
+                class="loader-particle"
+                style="left: 45%; animation-delay: 0.5s"
+              ></div>
+              <div
+                class="loader-particle"
+                style="left: 60%; animation-delay: 0.7s"
+              ></div>
+              <div
+                class="loader-particle"
+                style="left: 75%; animation-delay: 0.9s"
+              ></div>
+            </div>
+            <svg
+              class="checkmark"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="var(--loader-primary)"
+              stroke-width="2"
+            >
+              <path
+                d="M20 6L9 17l-5-5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </div>
+        </div>
+        <iframe
+          id="sheetFrame"
+          src="https://docs.google.com/spreadsheets/d/1HBgccBnUsVuS1Cj41uefAbynjbyl6RpetMvBOoPM_u4/edit?rm=minimal"
+          allowfullscreen
+        ></iframe>
+      </div>
+    </main>
+
+    <div class="access-message">
+      <div class="message-icon-container">
+        <div class="message-icon">
+          <span class="material-icons">warning</span>
+        </div>
+      </div>
+      <h2 class="message-title">Eee no puedes ingresar🙃</h2>
+      <div class="message-content">
+        Para acceder a este documento necesitas permisos de edición. Por favor
+        contacta al administrador del sistema para solicitar acceso.
+      </div>
+      <div class="message-contact">
+        <a href="mailto:efrain.chiri@esam.edu.bo" class="contact-link">
+          <span class="material-icons">alternate_email</span>
+          efrain.chiri@esam.edu.bo
+        </a>
+      </div>
+    </div>
+    <script>
+      // Sistema de temas
+      const themeToggle = document.getElementById("themeToggle");
+      const body = document.body;
+      const currentTheme = localStorage.getItem("theme");
+
+      if (currentTheme) {
+        body.setAttribute("data-theme", currentTheme);
+        updateThemeIcon();
+      }
+
+      themeToggle.addEventListener("click", () => {
+        const isDark = body.getAttribute("data-theme") === "dark";
+        body.setAttribute("data-theme", isDark ? "light" : "dark");
+        localStorage.setItem("theme", isDark ? "light" : "dark");
+        updateThemeIcon();
+      });
+
+      function updateThemeIcon() {
+        const isDark = body.getAttribute("data-theme") === "dark";
+        themeToggle.innerHTML = isDark
+          ? '<span class="material-icons">dark_mode</span>'
+          : '<span class="material-icons">light_mode</span>';
+      }
+
+      // URLs predefinidas
+      const URLs = {
+        Diplomado:
+          "https://docs.google.com/spreadsheets/d/1HBgccBnUsVuS1Cj41uefAbynjbyl6RpetMvBOoPM_u4/edit?rm=embedded",
+        maestria:
+          "https://docs.google.com/spreadsheets/d/1LWGrzKLI_oHTVpkn3d_WD2HCJYjs4FuolcI6bwbvJEk/edit?rm=embedded",
+      };
+
+      // Elementos del DOM
+      const frame = document.getElementById("sheetFrame");
+      const buttons = document.querySelectorAll(".nav-btn");
+      const loadingOverlay = document.querySelector(".loading-overlay");
+
+      // Precargar los iframes
+      const preloadFrame = (url) => {
+        const hiddenFrame = document.createElement("iframe");
+        hiddenFrame.style.display = "none";
+        hiddenFrame.src = url;
+        document.body.appendChild(hiddenFrame);
+      };
+
+      // Precargar todos los frames al iniciar
+      Object.values(URLs).forEach(preloadFrame);
+
+      // Función optimizada para cambiar de hoja
+      async function switchSheet(type) {
+        // Actualizar botones inmediatamente
+        buttons.forEach((btn) => {
+          const targetType = `btn${
+            type.charAt(0).toUpperCase() + type.slice(1)
+          }`;
+          btn.classList.toggle("active", btn.id === targetType);
+        });
+
+        // Mostrar loader y ocultar frame
+        loadingOverlay.classList.add("active");
+        frame.style.opacity = "0";
+
+        try {
+          // Cargar el frame con timeout de 5 segundos
+          await Promise.race([
+            new Promise((resolve) => {
+              frame.src = URLs[type];
+              frame.onload = resolve;
+            }),
+            new Promise((_, reject) =>
+              setTimeout(() => reject(new Error("Timeout")), 1000)
+            ),
+          ]);
+        } catch (error) {
+          console.error("Error loading frame:", error);
+        } finally {
+          // Ocultar loader y mostrar frame
+          loadingOverlay.classList.remove("active", "loaded");
+          frame.style.opacity = "1";
+        }
+      }
+
+      // Event listeners optimizados
+      buttons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const type = btn.id.replace("btn", "").toLowerCase();
+          if (type && URLs[type]) switchSheet(type);
+        });
+      });
+
+      // Carga inicial inmediata
+      frame.src = URLs.Diplomado;
+    </script>
+  </body>
+</html>
