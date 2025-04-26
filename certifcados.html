@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Generador de Certificados - UNSXX</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/interact.js/1.10.11/interact.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  </head>
+  <body
+    class="bg-gray-100 min-h-screen flex flex-col items-center py-10 space-y-8"
+  >
+    <!-- 1. Configurar plantilla -->
+    <div
+      id="configuracion"
+      class="bg-white p-8 rounded-2xl shadow-lg w-full max-w-4xl"
+    >
+      <h2 class="text-2xl font-bold text-gray-800 mb-4">
+        1. Subir y ajustar plantilla de certificado
+      </h2>
+      <input type="file" id="plantillaInput" accept="image/*" class="mb-4" />
+      <div
+        id="editor"
+        class="relative w-full h-[500px] bg-gray-200 rounded-xl overflow-hidden"
+      >
+        <img
+          id="plantillaImg"
+          src=""
+          alt="Plantilla"
+          class="w-full h-full object-contain hidden"
+        />
+        <div
+          id="markerNombre"
+          class="absolute text-center cursor-move bg-white/50 p-2 rounded hidden"
+        >
+          Aqui Ira el nombre del participante
+        </div>
+        <div
+          id="markerCurso"
+          class="absolute text-center cursor-move bg-white/50 p-2 rounded hidden"
+        >
+          Curso programa llevada por el particiapante en la empresa
+        </div>
+      </div>
+      <button
+        id="guardarPosiciones"
+        class="mt-4 bg-blue-700 hover:bg-blue-900 text-white py-2 px-6 rounded-xl transition"
+      >
+        Guardar Posiciones
+      </button>
+    </div>
+
+    <!-- 2. Registro y lista -->
+    <div
+      id="registro"
+      class="bg-white p-8 rounded-2xl shadow-lg w-full max-w-4xl hidden space-y-6"
+    >
+      <div class="flex justify-end">
+        <button
+          id="btnEditarPlantilla"
+          class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-xl transition"
+        >
+          Editar Plantilla
+        </button>
+      </div>
+      <h2 class="text-2xl font-bold text-gray-800">
+        2. Registrar estudiantes y generar certificados
+      </h2>
+
+      <form
+        id="formularioRegistro"
+        class="grid grid-cols-1 md:grid-cols-2 gap-6"
+      >
+        <div>
+          <label class="block mb-2 font-semibold">Nombre del Estudiante</label>
+          <input
+            type="text"
+            id="nombreEstudianteInput"
+            class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500"
+            required
+          />
+        </div>
+        <div>
+          <label class="block mb-2 font-semibold">Nombre del Curso</label>
+          <input
+            type="text"
+            id="cursoInput"
+            class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500"
+            required
+          />
+        </div>
+        <div class="md:col-span-2 flex justify-center">
+          <button
+            type="submit"
+            class="bg-green-600 hover:bg-green-800 text-white font-bold py-3 px-6 rounded-xl transition"
+          >
+            Agregar a la lista
+          </button>
+        </div>
+      </form>
+
+      <div id="listaEstudiantes" class="mt-6 space-y-4"></div>
+
+      <div class="mt-4 flex justify-between">
+        <button
+          id="btnSeleccionarTodos"
+          class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded-xl transition"
+        >
+          Seleccionar Todos
+        </button>
+        <button
+          id="btnDescargarSeleccionados"
+          class="bg-purple-600 hover:bg-purple-800 text-white font-bold py-2 px-4 rounded-xl transition"
+        >
+          Descargar Seleccionados
+        </button>
+      </div>
+    </div>
+
+    <!-- 3. Previsualización -->
+    <div
+      id="previewContainer"
+      class="bg-white p-8 rounded-2xl shadow-lg w-full max-w-4xl hidden"
+    >
+      <h3 class="text-xl font-semibold mb-2">Previsualización:</h3>
+      <div
+        id="certificadoPreview"
+        class="relative w-full h-[500px] border rounded-xl overflow-hidden"
+      >
+        <img
+          id="previewImg"
+          src=""
+          alt="Preview"
+          class="w-full h-full object-contain"
+        />
+        <div
+          id="textoNombre"
+          class="absolute text-center font-bold text-lg text-black"
+          style="pointer-events: none"
+        ></div>
+        <div
+          id="textoCurso"
+          class="absolute text-center font-medium text-md text-black"
+          style="pointer-events: none"
+        ></div>
+      </div>
+      <div class="mt-4 flex justify-center">
+        <button
+          id="btnDescargarPreview"
+          class="bg-green-600 hover:bg-green-800 text-white font-bold py-2 px-6 rounded-xl transition"
+        >
+          Descargar Certificado
+        </button>
+      </div>
+    </div>
+
+    <script>
+      // Elementos
+      const plantillaInput = document.getElementById("plantillaInput");
+      const plantillaImg = document.getElementById("plantillaImg");
+      const editor = document.getElementById("editor");
+      const markerNombre = document.getElementById("markerNombre");
+      const markerCurso = document.getElementById("markerCurso");
+      const guardarPosiciones = document.getElementById("guardarPosiciones");
+      const registro = document.getElementById("registro");
+      const previewContainer = document.getElementById("previewContainer");
+      const btnEditarPlantilla = document.getElementById("btnEditarPlantilla");
+
+      let posiciones = null;
+      let estudiantes = [];
+
+      // 1. Carga de plantilla
+      plantillaInput.addEventListener("change", (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const url = URL.createObjectURL(file);
+        plantillaImg.src = url;
+        plantillaImg.classList.remove("hidden");
+        markerNombre.classList.remove("hidden");
+        markerCurso.classList.remove("hidden");
+        // Posición inicial
+        markerNombre.style.top = "200px";
+        markerNombre.style.left = "100px";
+        markerCurso.style.top = "260px";
+        markerCurso.style.left = "100px";
+      });
+
+      // Drag & Drop
+      [markerNombre, markerCurso].forEach((el) => {
+        interact(el).draggable({
+          modifiers: [interact.modifiers.restrict({ restriction: editor })],
+          listeners: {
+            move(event) {
+              const x = (parseFloat(el.style.left) || 0) + event.dx;
+              const y = (parseFloat(el.style.top) || 0) + event.dy;
+              el.style.left = x + "px";
+              el.style.top = y + "px";
+            },
+          },
+        });
+      });
+
+      // Guardar posiciones
+      guardarPosiciones.addEventListener("click", () => {
+        posiciones = {
+          nombre: {
+            top: parseFloat(markerNombre.style.top),
+            left: parseFloat(markerNombre.style.left),
+          },
+          curso: {
+            top: parseFloat(markerCurso.style.top),
+            left: parseFloat(markerCurso.style.left),
+          },
+        };
+        localStorage.setItem(
+          "posicionesCertificado",
+          JSON.stringify(posiciones)
+        );
+        alert("Posiciones guardadas.");
+        configuracion.classList.add("hidden");
+        registro.classList.remove("hidden");
+        configurarPreview();
+      });
+
+      // Editar plantilla
+      btnEditarPlantilla.addEventListener("click", () => {
+        document.getElementById("configuracion").classList.remove("hidden");
+        registro.classList.add("hidden");
+        previewContainer.classList.add("hidden");
+      });
+
+      // Restablecer posiciones existentes
+      window.addEventListener("load", () => {
+        const data = JSON.parse(localStorage.getItem("posicionesCertificado"));
+        if (data) {
+          posiciones = data;
+          document.getElementById("configuracion").classList.add("hidden");
+          registro.classList.remove("hidden");
+          configurarPreview();
+        }
+      });
+
+      // Configurar preview posiciones
+      function configurarPreview() {
+        const tN = document.getElementById("textoNombre");
+        const tC = document.getElementById("textoCurso");
+        tN.style.top = posiciones.nombre.top + "px";
+        tN.style.left = posiciones.nombre.left + "px";
+        tC.style.top = posiciones.curso.top + "px";
+        tC.style.left = posiciones.curso.left + "px";
+      }
+
+      // Registro de estudiantes
+      document
+        .getElementById("formularioRegistro")
+        .addEventListener("submit", (e) => {
+          e.preventDefault();
+          const n = document
+            .getElementById("nombreEstudianteInput")
+            .value.trim();
+          const c = document.getElementById("cursoInput").value.trim();
+          if (!n || !c) return;
+          estudiantes.push({ nombre: n, curso: c });
+          renderLista();
+          e.target.reset();
+        });
+
+      // Renderizar lista
+      function renderLista() {
+        const list = document.getElementById("listaEstudiantes");
+        list.innerHTML = "";
+        estudiantes.forEach((est, i) => {
+          const div = document.createElement("div");
+          div.className =
+            "flex items-center justify-between bg-gray-200 p-4 rounded-xl";
+          div.innerHTML = `
+          <div class="flex items-center gap-4">
+            <input type=\"checkbox\" class=\"checkbox item-${i}\" data-index=\"${i}\"> 
+            <div>
+              <p class=\"font-semibold\">${est.nombre}</p>
+              <p class=\"text-gray-600\">${est.curso}</p>
+            </div>
+          </div>
+          <div class=\"flex gap-2\">
+            <button onclick=\"previewCertificado(${i})\" class=\"bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-xl\">Ver</button>
+            <button onclick=\"downloadCertificado(${i})\" class=\"bg-green-600 hover:bg-green-800 text-white py-2 px-4 rounded-xl\">Descargar</button>
+          </div>`;
+          list.appendChild(div);
+        });
+      }
+
+      // Botones de selección y descarga masiva
+      document
+        .getElementById("btnSeleccionarTodos")
+        .addEventListener("click", () => {
+          document
+            .querySelectorAll("#listaEstudiantes .checkbox")
+            .forEach((cb) => (cb.checked = true));
+        });
+      document
+        .getElementById("btnDescargarSeleccionados")
+        .addEventListener("click", () => {
+          const selected = Array.from(
+            document.querySelectorAll("#listaEstudiantes .checkbox:checked")
+          ).map((cb) => estudiantes[parseInt(cb.dataset.index)]);
+          if (!selected.length) return alert("No hay seleccionados.");
+          selected.forEach((est) => generarPDF(est));
+        });
+
+      // Funciones de preview y descarga individual
+      window.previewCertificado = (idx) => mostrarPreview(estudiantes[idx]);
+      window.downloadCertificado = (idx) => generarPDF(estudiantes[idx]);
+
+      function mostrarPreview(est) {
+        document.getElementById("previewImg").src = plantillaImg.src;
+        document.getElementById("textoNombre").innerText = est.nombre;
+        document.getElementById("textoCurso").innerText = est.curso;
+        previewContainer.classList.remove("hidden");
+        window.scrollTo({
+          top: previewContainer.offsetTop,
+          behavior: "smooth",
+        });
+      }
+      function generarPDF(est) {
+        mostrarPreview(est);
+        html2canvas(document.getElementById("certificadoPreview"), {
+          scale: 2,
+        }).then((canvas) => {
+          const img = canvas.toDataURL("image/jpeg", 1.0);
+          const pdf = new jspdf.jsPDF({
+            orientation: "landscape",
+            unit: "px",
+            format: [canvas.width, canvas.height],
+          });
+          pdf.addImage(img, "JPEG", 0, 0, canvas.width, canvas.height);
+          pdf.save(`Certificado_${est.nombre}.pdf`);
+        });
+      }
+    </script>
+  </body>
+</html>
