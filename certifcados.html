@@ -8,6 +8,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/interact.js/1.10.11/interact.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
   </head>
   <body
     class="bg-gray-100 min-h-screen flex flex-col items-center py-10 space-y-8"
@@ -34,14 +38,17 @@
         <div
           id="markerNombre"
           class="absolute text-center cursor-move bg-white/50 p-2 rounded hidden"
+          style="max-width: 300px; white-space: normal; word-wrap: break-word"
         >
-          Aqui Ira el nombre del participante
+          [Nombre Completo del participante]
         </div>
         <div
           id="markerCurso"
           class="absolute text-center cursor-move bg-white/50 p-2 rounded hidden"
+          style="max-width: 500px; white-space: normal; word-wrap: break-word"
         >
-          Curso programa llevada por el particiapante en la empresa
+          [Programa Integral de Certificación Profesional en Desarrollo las
+          abilididaes pro]
         </div>
       </div>
       <button
@@ -57,7 +64,13 @@
       id="registro"
       class="bg-white p-8 rounded-2xl shadow-lg w-full max-w-4xl hidden space-y-6"
     >
-      <div class="flex justify-end">
+      <div class="flex justify-between">
+        <button
+          id="btnGenerarTodos"
+          class="bg-indigo-600 hover:bg-indigo-800 text-white font-bold py-2 px-4 rounded-xl transition"
+        >
+          <i class="fas fa-download mr-2"></i>Generar Todos
+        </button>
         <button
           id="btnEditarPlantilla"
           class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-xl transition"
@@ -114,7 +127,7 @@
           id="btnDescargarSeleccionados"
           class="bg-purple-600 hover:bg-purple-800 text-white font-bold py-2 px-4 rounded-xl transition"
         >
-          Descargar Seleccionados
+          <i class="fas fa-download mr-2"></i>Descargar Seleccionados
         </button>
       </div>
     </div>
@@ -138,12 +151,12 @@
         <div
           id="textoNombre"
           class="absolute text-center font-bold text-lg text-black"
-          style="pointer-events: none"
+          style="pointer-events: none; max-width: 300px; word-wrap: break-word"
         ></div>
         <div
           id="textoCurso"
           class="absolute text-center font-medium text-md text-black"
-          style="pointer-events: none"
+          style="pointer-events: none; max-width: 500px; word-wrap: break-word"
         ></div>
       </div>
       <div class="mt-4 flex justify-center">
@@ -151,7 +164,7 @@
           id="btnDescargarPreview"
           class="bg-green-600 hover:bg-green-800 text-white font-bold py-2 px-6 rounded-xl transition"
         >
-          Descargar Certificado
+          <i class="fas fa-download mr-2"></i>Descargar Certificado
         </button>
       </div>
     </div>
@@ -167,9 +180,10 @@
       const registro = document.getElementById("registro");
       const previewContainer = document.getElementById("previewContainer");
       const btnEditarPlantilla = document.getElementById("btnEditarPlantilla");
+      const btnGenerarTodos = document.getElementById("btnGenerarTodos");
 
       let posiciones = null;
-      let estudiantes = [];
+      let estudiantes = JSON.parse(localStorage.getItem("estudiantes")) || [];
 
       // 1. Carga de plantilla
       plantillaInput.addEventListener("change", (e) => {
@@ -180,7 +194,6 @@
         plantillaImg.classList.remove("hidden");
         markerNombre.classList.remove("hidden");
         markerCurso.classList.remove("hidden");
-        // Posición inicial
         markerNombre.style.top = "200px";
         markerNombre.style.left = "100px";
         markerCurso.style.top = "260px";
@@ -208,10 +221,12 @@
           nombre: {
             top: parseFloat(markerNombre.style.top),
             left: parseFloat(markerNombre.style.left),
+            width: markerNombre.offsetWidth,
           },
           curso: {
             top: parseFloat(markerCurso.style.top),
             left: parseFloat(markerCurso.style.left),
+            width: markerCurso.offsetWidth,
           },
         };
         localStorage.setItem(
@@ -231,25 +246,27 @@
         previewContainer.classList.add("hidden");
       });
 
-      // Restablecer posiciones existentes
+      // Cargar datos existentes
       window.addEventListener("load", () => {
         const data = JSON.parse(localStorage.getItem("posicionesCertificado"));
         if (data) {
           posiciones = data;
-          document.getElementById("configuracion").classList.add("hidden");
           registro.classList.remove("hidden");
           configurarPreview();
         }
+        if (estudiantes.length > 0) renderLista();
       });
 
-      // Configurar preview posiciones
+      // Configurar preview
       function configurarPreview() {
         const tN = document.getElementById("textoNombre");
         const tC = document.getElementById("textoCurso");
         tN.style.top = posiciones.nombre.top + "px";
         tN.style.left = posiciones.nombre.left + "px";
+        tN.style.width = posiciones.nombre.width + "px";
         tC.style.top = posiciones.curso.top + "px";
         tC.style.left = posiciones.curso.left + "px";
+        tC.style.width = posiciones.curso.width + "px";
       }
 
       // Registro de estudiantes
@@ -263,6 +280,7 @@
           const c = document.getElementById("cursoInput").value.trim();
           if (!n || !c) return;
           estudiantes.push({ nombre: n, curso: c });
+          localStorage.setItem("estudiantes", JSON.stringify(estudiantes));
           renderLista();
           e.target.reset();
         });
@@ -276,22 +294,38 @@
           div.className =
             "flex items-center justify-between bg-gray-200 p-4 rounded-xl";
           div.innerHTML = `
-          <div class="flex items-center gap-4">
-            <input type=\"checkbox\" class=\"checkbox item-${i}\" data-index=\"${i}\"> 
-            <div>
-              <p class=\"font-semibold\">${est.nombre}</p>
-              <p class=\"text-gray-600\">${est.curso}</p>
+            <div class="flex items-center gap-4 flex-1">
+              <input type="checkbox" class="checkbox item-${i}" data-index="${i}">
+              <div class="flex-1 min-w-0">
+                <p class="font-semibold truncate">${est.nombre}</p>
+                <p class="text-gray-600 truncate">${est.curso}</p>
+              </div>
             </div>
-          </div>
-          <div class=\"flex gap-2\">
-            <button onclick=\"previewCertificado(${i})\" class=\"bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-xl\">Ver</button>
-            <button onclick=\"downloadCertificado(${i})\" class=\"bg-green-600 hover:bg-green-800 text-white py-2 px-4 rounded-xl\">Descargar</button>
-          </div>`;
+            <div class="flex gap-2">
+              <button onclick="previewCertificado(${i})" class="bg-blue-500 hover:bg-blue-700 text-white p-2 rounded-xl">
+                <i class="fas fa-eye"></i>
+              </button>
+              <button onclick="downloadCertificado(${i})" class="bg-green-600 hover:bg-green-800 text-white p-2 rounded-xl">
+                <i class="fas fa-download"></i>
+              </button>
+              <button onclick="eliminarEstudiante(${i})" class="bg-red-500 hover:bg-red-700 text-white p-2 rounded-xl">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>`;
           list.appendChild(div);
         });
       }
 
-      // Botones de selección y descarga masiva
+      // Eliminar estudiante
+      window.eliminarEstudiante = (index) => {
+        if (confirm("¿Eliminar este registro?")) {
+          estudiantes.splice(index, 1);
+          localStorage.setItem("estudiantes", JSON.stringify(estudiantes));
+          renderLista();
+        }
+      };
+
+      // Botones de selección
       document
         .getElementById("btnSeleccionarTodos")
         .addEventListener("click", () => {
@@ -299,6 +333,8 @@
             .querySelectorAll("#listaEstudiantes .checkbox")
             .forEach((cb) => (cb.checked = true));
         });
+
+      // Descargar seleccionados
       document
         .getElementById("btnDescargarSeleccionados")
         .addEventListener("click", () => {
@@ -306,10 +342,24 @@
             document.querySelectorAll("#listaEstudiantes .checkbox:checked")
           ).map((cb) => estudiantes[parseInt(cb.dataset.index)]);
           if (!selected.length) return alert("No hay seleccionados.");
-          selected.forEach((est) => generarPDF(est));
+          descargarMultiples(selected);
         });
 
-      // Funciones de preview y descarga individual
+      // Generar todos
+      btnGenerarTodos.addEventListener("click", () => {
+        if (!estudiantes.length)
+          return alert("No hay estudiantes registrados.");
+        descargarMultiples(estudiantes);
+      });
+
+      // Funciones de descarga
+      async function descargarMultiples(lista) {
+        for (let i = 0; i < lista.length; i++) {
+          await generarPDF(lista[i]);
+          await new Promise((resolve) => setTimeout(resolve, 500));
+        }
+      }
+
       window.previewCertificado = (idx) => mostrarPreview(estudiantes[idx]);
       window.downloadCertificado = (idx) => generarPDF(estudiantes[idx]);
 
@@ -323,19 +373,23 @@
           behavior: "smooth",
         });
       }
-      function generarPDF(est) {
+
+      async function generarPDF(est) {
         mostrarPreview(est);
-        html2canvas(document.getElementById("certificadoPreview"), {
-          scale: 2,
-        }).then((canvas) => {
-          const img = canvas.toDataURL("image/jpeg", 1.0);
-          const pdf = new jspdf.jsPDF({
-            orientation: "landscape",
-            unit: "px",
-            format: [canvas.width, canvas.height],
+        return new Promise((resolve) => {
+          html2canvas(document.getElementById("certificadoPreview"), {
+            scale: 2,
+          }).then((canvas) => {
+            const img = canvas.toDataURL("image/jpeg", 1.0);
+            const pdf = new jspdf.jsPDF({
+              orientation: "landscape",
+              unit: "px",
+              format: [canvas.width, canvas.height],
+            });
+            pdf.addImage(img, "JPEG", 0, 0, canvas.width, canvas.height);
+            pdf.save(`Certificado_${est.nombre.replace(/ /g, "_")}.pdf`);
+            resolve();
           });
-          pdf.addImage(img, "JPEG", 0, 0, canvas.width, canvas.height);
-          pdf.save(`Certificado_${est.nombre}.pdf`);
         });
       }
     </script>
