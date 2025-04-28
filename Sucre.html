@@ -360,10 +360,11 @@
       }
 
       .theme-toggle {
-        position: absolute;
-        bottom: 20px;
-        width: 40px;
-        height: 40px;
+        position: fixed; /* Fijo en pantalla */
+        right: 10px; /* Mucho más cerca del borde derecho */
+        bottom: 20px; /* Separado del borde inferior */
+        width: 50px;
+        height: 50px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -372,8 +373,9 @@
         color: var(--secondary-color);
         border: none;
         cursor: pointer;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        transition: var(--transition);
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+        transition: transform 0.3s ease, background-color 0.3s ease;
+        z-index: 10000; /* Muy por encima de otros elementos */
       }
 
       .theme-toggle:hover {
@@ -381,9 +383,18 @@
       }
 
       .theme-toggle .material-icons {
-        font-size: 20px;
+        font-size: 24px;
       }
 
+      /* Opcional: Mejorar aún más en pantallas muy pequeñas */
+      @media (max-width: 600px) {
+        .theme-toggle {
+          width: 45px;
+          height: 45px;
+          right: 8px;
+          bottom: 15px;
+        }
+      }
       .access-message {
         position: fixed;
         top: 50%;
@@ -518,10 +529,6 @@
         </button>
       </a>
 
-      <button class="theme-toggle" id="themeToggle">
-        <span class="material-icons">dark_mode</span>
-      </button>
-
       <div class="sidebar-logo">
         <img
           src="https://www.esam.edu.bo/img/logo_esam_principal.png"
@@ -530,6 +537,10 @@
         />
       </div>
     </aside>
+
+    <button class="theme-toggle" id="themeToggle">
+      <span class="material-icons">dark_mode</span>
+    </button>
 
     <main>
       <div class="frame-container">
