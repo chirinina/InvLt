@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Generador de Certificados - UNSXX</title>
+    <title>Certificados Pro - UNSXX</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/interact.js/1.10.11/interact.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -12,160 +12,284 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+      .gradient-bg {
+        background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+      }
+      .editor-grid {
+        background-size: 40px 40px;
+        background-image: linear-gradient(
+            to right,
+            #e2e8f0 1px,
+            transparent 1px
+          ),
+          linear-gradient(to bottom, #e2e8f0 1px, transparent 1px);
+      }
+    </style>
   </head>
-  <body
-    class="bg-gray-100 min-h-screen flex flex-col items-center py-10 space-y-8"
-  >
-    <!-- 1. Configurar plantilla -->
-    <div
-      id="configuracion"
-      class="bg-white p-8 rounded-2xl shadow-lg w-full max-w-4xl"
-    >
-      <h2 class="text-2xl font-bold text-gray-800 mb-4">
-        1. Subir y ajustar plantilla de certificado
-      </h2>
-      <input type="file" id="plantillaInput" accept="image/*" class="mb-4" />
+  <body class="gradient-bg min-h-screen font-['Inter']">
+    <div class="container mx-auto px-4 py-8 max-w-7xl">
+      <!-- Header -->
+      <header class="mb-12 text-center">
+        <h1 class="text-4xl font-bold text-slate-800 mb-2">
+          Generador de Certificados Pro
+        </h1>
+        <p class="text-slate-600">
+          Sistema profesional de generación de certificados académicos
+        </p>
+      </header>
+
+      <!-- Sección de Configuración -->
       <div
-        id="editor"
-        class="relative w-full h-[500px] bg-gray-200 rounded-xl overflow-hidden"
+        id="configuracion"
+        class="bg-white rounded-xl shadow-2xl p-8 mb-8 transition-all duration-300"
       >
-        <img
-          id="plantillaImg"
-          src=""
-          alt="Plantilla"
-          class="w-full h-full object-contain hidden"
-        />
-        <div
-          id="markerNombre"
-          class="absolute text-center cursor-move bg-white/50 p-2 rounded hidden"
-          style="max-width: 300px; white-space: normal; word-wrap: break-word"
-        >
-          [Nombre Completo del participante]
+        <div class="flex items-center gap-4 mb-6">
+          <div class="p-3 bg-indigo-100 rounded-lg">
+            <i class="fas fa-cog text-indigo-600 text-2xl"></i>
+          </div>
+          <div>
+            <h2 class="text-2xl font-bold text-slate-800">
+              Configuración de Plantilla
+            </h2>
+            <p class="text-slate-500">
+              Sube y ajusta tu plantilla de certificado
+            </p>
+          </div>
         </div>
-        <div
-          id="markerCurso"
-          class="absolute text-center cursor-move bg-white/50 p-2 rounded hidden"
-          style="max-width: 500px; white-space: normal; word-wrap: break-word"
-        >
-          [Programa Integral de Certificación Profesional en Desarrollo las
-          abilididaes pro]
-        </div>
-      </div>
-      <button
-        id="guardarPosiciones"
-        class="mt-4 bg-blue-700 hover:bg-blue-900 text-white py-2 px-6 rounded-xl transition"
-      >
-        Guardar Posiciones
-      </button>
-    </div>
 
-    <!-- 2. Registro y lista -->
-    <div
-      id="registro"
-      class="bg-white p-8 rounded-2xl shadow-lg w-full max-w-4xl hidden space-y-6"
-    >
-      <div class="flex justify-between">
-        <button
-          id="btnGenerarTodos"
-          class="bg-indigo-600 hover:bg-indigo-800 text-white font-bold py-2 px-4 rounded-xl transition"
-        >
-          <i class="fas fa-download mr-2"></i>Generar Todos
-        </button>
-        <button
-          id="btnEditarPlantilla"
-          class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-xl transition"
-        >
-          Editar Plantilla
-        </button>
-      </div>
-      <h2 class="text-2xl font-bold text-gray-800">
-        2. Registrar estudiantes y generar certificados
-      </h2>
+        <div class="mb-6">
+          <label class="block mb-3">
+            <span class="block text-sm font-medium text-slate-700 mb-2"
+              >Subir plantilla base</span
+            >
+            <div class="relative group">
+              <input
+                type="file"
+                id="plantillaInput"
+                accept="image/*"
+                class="block w-full text-sm text-slate-500 file:mr-4 file:py-3 file:px-6 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 file:transition-colors cursor-pointer shadow-sm"
+              />
+              <div
+                class="absolute inset-0 border-2 border-dashed border-slate-200 rounded-lg pointer-events-none group-hover:border-indigo-300 transition-colors"
+              ></div>
+            </div>
+          </label>
+        </div>
 
-      <form
-        id="formularioRegistro"
-        class="grid grid-cols-1 md:grid-cols-2 gap-6"
-      >
-        <div>
-          <label class="block mb-2 font-semibold">Nombre del Estudiante</label>
-          <input
-            type="text"
-            id="nombreEstudianteInput"
-            class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500"
-            required
-          />
-        </div>
-        <div>
-          <label class="block mb-2 font-semibold">Nombre del Curso</label>
-          <input
-            type="text"
-            id="cursoInput"
-            class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500"
-            required
-          />
-        </div>
-        <div class="md:col-span-2 flex justify-center">
-          <button
-            type="submit"
-            class="bg-green-600 hover:bg-green-800 text-white font-bold py-3 px-6 rounded-xl transition"
+        <div class="bg-slate-50 rounded-xl p-4 border border-slate-200">
+          <div
+            id="editor"
+            class="editor-grid relative w-full h-[600px] bg-white rounded-lg overflow-hidden shadow-inner"
           >
-            Agregar a la lista
-          </button>
+            <img
+              id="plantillaImg"
+              src=""
+              alt="Plantilla"
+              class="w-full h-full object-contain hidden"
+            />
+            <div
+              id="markerNombre"
+              class="absolute text-center cursor-move bg-white/90 p-4 rounded-xl shadow-lg border-2 border-indigo-200 hidden"
+              style="
+                max-width: 400px;
+                word-wrap: break-word;
+                backdrop-filter: blur(4px);
+              "
+            >
+              <span class="text-indigo-600 font-medium"
+                >[Nombre Completo del Participante]</span
+              >
+            </div>
+            <div
+              id="markerCurso"
+              class="absolute text-center cursor-move bg-white/90 p-4 rounded-xl shadow-lg border-2 border-indigo-200 hidden"
+              style="
+                max-width: 800px;
+                word-wrap: break-word;
+                backdrop-filter: blur(4px);
+              "
+            >
+              <span class="text-slate-700"
+                >[NOMBRE DEL PRORGRAMA ACADEMICO DE SU PARTICIPACION ]</span
+              >
+            </div>
+          </div>
+
+          <div class="mt-6 flex justify-end">
+            <button
+              id="guardarPosiciones"
+              class="bg-indigo-600 hover:bg-indigo-700 text-white font-medium px-8 py-3 rounded-lg transition-all flex items-center gap-2 shadow-lg hover:shadow-indigo-200"
+            >
+              <i class="fas fa-save"></i>
+              Guardar Configuración
+            </button>
+          </div>
         </div>
-      </form>
-
-      <div id="listaEstudiantes" class="mt-6 space-y-4"></div>
-
-      <div class="mt-4 flex justify-between">
-        <button
-          id="btnSeleccionarTodos"
-          class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded-xl transition"
-        >
-          Seleccionar Todos
-        </button>
-        <button
-          id="btnDescargarSeleccionados"
-          class="bg-purple-600 hover:bg-purple-800 text-white font-bold py-2 px-4 rounded-xl transition"
-        >
-          <i class="fas fa-download mr-2"></i>Descargar Seleccionados
-        </button>
       </div>
-    </div>
 
-    <!-- 3. Previsualización -->
-    <div
-      id="previewContainer"
-      class="bg-white p-8 rounded-2xl shadow-lg w-full max-w-4xl hidden"
-    >
-      <h3 class="text-xl font-semibold mb-2">Previsualización:</h3>
+      <!-- Sección de Registro -->
+      <div id="registro" class="bg-white rounded-xl shadow-2xl p-8 mb-8 hidden">
+        <div class="flex items-center gap-4 mb-6">
+          <div class="p-3 bg-emerald-100 rounded-lg">
+            <i class="fas fa-users text-emerald-600 text-2xl"></i>
+          </div>
+          <div>
+            <h2 class="text-2xl font-bold text-slate-800">
+              Gestión de Participantes
+            </h2>
+            <p class="text-slate-500">
+              Registro y generación de certificados individuales
+            </p>
+          </div>
+        </div>
+
+        <div class="grid lg:grid-cols-2 gap-8 mb-8">
+          <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
+            <form id="formularioRegistro" class="space-y-5">
+              <div>
+                <label class="block text-sm font-medium text-slate-700 mb-2"
+                  >Nombre Completo</label
+                >
+                <input
+                  type="text"
+                  id="nombreEstudianteInput"
+                  class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 placeholder-slate-400 transition-all shadow-sm"
+                />
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-slate-700 mb-2"
+                  >Programa Académico</label
+                >
+                <input
+                  type="text"
+                  id="cursoInput"
+                  class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 placeholder-slate-400 transition-all shadow-sm"
+                />
+              </div>
+
+              <button
+                type="submit"
+                class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-3 px-6 rounded-lg transition-all flex items-center justify-center gap-2 shadow-lg hover:shadow-emerald-200"
+              >
+                <i class="fas fa-user-plus"></i>
+                Agregar Participante
+              </button>
+            </form>
+          </div>
+
+          <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
+            <div class="flex flex-col gap-4">
+              <button
+                id="btnGenerarTodos"
+                class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 px-6 rounded-lg transition-all flex items-center justify-center gap-2 shadow-lg hover:shadow-indigo-200"
+              >
+                <i class="fas fa-download"></i>
+                Generar Todos los Certificados
+              </button>
+
+              <button
+                id="btnEditarPlantilla"
+                class="w-full bg-slate-600 hover:bg-slate-700 text-white font-medium py-3 px-6 rounded-lg transition-all flex items-center justify-center gap-2 shadow-lg hover:shadow-slate-200"
+              >
+                <i class="fas fa-edit"></i>
+                Editar Configuración de Plantilla
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm"
+        >
+          <div
+            class="p-4 bg-slate-50 border-b border-slate-200 flex items-center justify-between"
+          >
+            <h3 class="font-medium text-slate-800">Lista de Participantes</h3>
+            <div class="flex gap-3">
+              <button
+                id="btnSeleccionarTodos"
+                class="text-sm bg-slate-200 hover:bg-slate-300 text-slate-700 px-4 py-2 rounded-lg transition-colors flex items-center gap-2"
+              >
+                <i class="fas fa-check-circle"></i>
+                Seleccionar Todos
+              </button>
+              <button
+                id="btnDescargarSeleccionados"
+                class="text-sm bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg transition-colors flex items-center gap-2"
+              >
+                <i class="fas fa-file-download"></i>
+                Descargar Seleccionados
+              </button>
+            </div>
+          </div>
+
+          <div id="listaEstudiantes" class="divide-y divide-slate-200"></div>
+        </div>
+      </div>
+
+      <!-- Previsualización -->
       <div
-        id="certificadoPreview"
-        class="relative w-full h-[500px] border rounded-xl overflow-hidden"
+        id="previewContainer"
+        class="bg-white rounded-xl shadow-2xl p-8 hidden"
       >
-        <img
-          id="previewImg"
-          src=""
-          alt="Preview"
-          class="w-full h-full object-contain"
-        />
-        <div
-          id="textoNombre"
-          class="absolute text-center font-bold text-lg text-black"
-          style="pointer-events: none; max-width: 300px; word-wrap: break-word"
-        ></div>
-        <div
-          id="textoCurso"
-          class="absolute text-center font-medium text-md text-black"
-          style="pointer-events: none; max-width: 500px; word-wrap: break-word"
-        ></div>
-      </div>
-      <div class="mt-4 flex justify-center">
-        <button
-          id="btnDescargarPreview"
-          class="bg-green-600 hover:bg-green-800 text-white font-bold py-2 px-6 rounded-xl transition"
-        >
-          <i class="fas fa-download mr-2"></i>Descargar Certificado
-        </button>
+        <div class="flex items-center gap-4 mb-6">
+          <div class="p-3 bg-amber-100 rounded-lg">
+            <i class="fas fa-eye text-amber-600 text-2xl"></i>
+          </div>
+          <div>
+            <h2 class="text-2xl font-bold text-slate-800">
+              Vista Previa del Certificado
+            </h2>
+            <p class="text-slate-500">
+              Verifique la información antes de descargar
+            </p>
+          </div>
+        </div>
+
+        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+          <div
+            id="certificadoPreview"
+            class="relative w-full h-[600px] bg-white rounded-lg overflow-hidden shadow-inner"
+          >
+            <img
+              id="previewImg"
+              src=""
+              alt="Preview"
+              class="w-full h-full object-contain"
+            />
+            <div
+              id="textoNombre"
+              class="absolute text-center font-bold text-slate-800"
+              style="
+                pointer-events: none;
+                max-width: 300px;
+                word-wrap: break-word;
+              "
+            ></div>
+            <div
+              id="textoCurso"
+              class="absolute text-center font-medium text-slate-700"
+              style="
+                pointer-events: none;
+                max-width: 500px;
+                word-wrap: break-word;
+              "
+            ></div>
+          </div>
+
+          <div class="mt-6 flex justify-center">
+            <button
+              id="btnDescargarPreview"
+              class="bg-indigo-600 hover:bg-indigo-700 text-white font-medium px-8 py-3 rounded-lg transition-all flex items-center gap-2 shadow-lg hover:shadow-indigo-200"
+            >
+              <i class="fas fa-download"></i>
+              Descargar Certificado
+            </button>
+          </div>
+        </div>
       </div>
     </div>
 
