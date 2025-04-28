@@ -71,7 +71,7 @@
         class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-4"
       >
         <!-- Tarjeta Sucre -->
-        <a href="Sucre.html" class="group">
+        <a href="/sds/Sucre.html" class="group">
           <div
             class="bg-white rounded-xl p-4 md:p-5 shadow-esam-card border border-gray-200/80 hover:border-esam-primary/30 transition-all duration-300 h-full"
           >
@@ -124,7 +124,7 @@
         </a>
 
         <!-- Tarjeta Monteagudo -->
-        <a href="Monteagudo.html" class="group">
+        <a href="/sds/Monteagudo.html" class="group">
           <div
             class="bg-white rounded-xl p-4 md:p-5 shadow-esam-card border border-gray-200/80 hover:border-esam-primary/30 transition-all duration-300 h-full"
           >
@@ -269,36 +269,6 @@
         </div>
       </div>
     </div>
-
-    <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        const formatTime = (date = new Date()) => {
-          return date.toLocaleTimeString("es-BO", {
-            hour: "2-digit",
-            minute: "2-digit",
-          });
-        };
-
-        setTimeout(() => {
-          document.querySelectorAll(".group").forEach((card) => {
-            const status = card.querySelector(".status-indicator");
-            const lastAccess = card.querySelector(".last-access");
-
-            if (status && lastAccess) {
-              status.textContent = "En línea";
-              status.classList.replace(
-                "bg-esam-offline/10",
-                "bg-esam-success/10"
-              );
-              status.classList.replace(
-                "text-esam-offline",
-                "text-esam-success"
-              );
-              lastAccess.textContent = formatTime();
-            }
-          });
-        }, 2000);
-      });
-    </script>
   </body>
+  <script src="/js/funtion.js"></script>
 </html>
