@@ -113,99 +113,103 @@
         </a>
       </div>
     </div>
+
     <script>
-      // Sistema de temas
+      // Sistema de temas optimizado
       const themeToggle = document.getElementById("themeToggle");
       const body = document.body;
-      const currentTheme = localStorage.getItem("theme");
 
-      if (currentTheme) {
-        body.setAttribute("data-theme", currentTheme);
-        updateThemeIcon();
-      }
+      // Cargar tema guardado
+      const currentTheme = localStorage.getItem("theme") || "dark";
+      body.setAttribute("data-theme", currentTheme);
+      updateThemeIcon();
 
       themeToggle.addEventListener("click", () => {
-        const isDark = body.getAttribute("data-theme") === "dark";
-        body.setAttribute("data-theme", isDark ? "light" : "dark");
-        localStorage.setItem("theme", isDark ? "light" : "dark");
+        const newTheme =
+          body.getAttribute("data-theme") === "dark" ? "light" : "dark";
+        body.setAttribute("data-theme", newTheme);
+        localStorage.setItem("theme", newTheme);
         updateThemeIcon();
       });
 
       function updateThemeIcon() {
-        const isDark = body.getAttribute("data-theme") === "dark";
-        themeToggle.innerHTML = isDark
-          ? '<span class="material-icons">dark_mode</span>'
-          : '<span class="material-icons">light_mode</span>';
+        themeToggle.innerHTML =
+          body.getAttribute("data-theme") === "dark"
+            ? '<span class="material-icons">dark_mode</span>'
+            : '<span class="material-icons">light_mode</span>';
       }
 
-      // URLs predefinidas
+      // URLs predefinidas (claves en minúsculas)
       const URLs = {
-        Diplomado:
+        diplomado:
           "https://docs.google.com/spreadsheets/d/10rmg6KHJ9jxIlKas7pSZGlCNOCcYiLUWi_i-GnjTY0k/edit?rm=embedded",
         maestria:
           "https://docs.google.com/spreadsheets/d/1YYUoLCz0yHDQoKhOpLmJMx1QjkrXirG24d_8CGptC20/edit?rm=embedded",
       };
 
+      // Cache de iframes
+      const frameCache = new Map();
+      let currentFrame = null;
+
       // Elementos del DOM
-      const frame = document.getElementById("sheetFrame");
-      const buttons = document.querySelectorAll(".nav-btn");
+      const frameContainer = document.querySelector(".frame-container");
       const loadingOverlay = document.querySelector(".loading-overlay");
+      const buttons = document.querySelectorAll(".nav-btn");
 
-      // Precargar los iframes
-      const preloadFrame = (url) => {
-        const hiddenFrame = document.createElement("iframe");
-        hiddenFrame.style.display = "none";
-        hiddenFrame.src = url;
-        document.body.appendChild(hiddenFrame);
-      };
-
-      // Precargar todos los frames al iniciar
-      Object.values(URLs).forEach(preloadFrame);
-
-      // Función optimizada para cambiar de hoja
-      async function switchSheet(type) {
-        // Actualizar botones inmediatamente
-        buttons.forEach((btn) => {
-          const targetType = `btn${
-            type.charAt(0).toUpperCase() + type.slice(1)
-          }`;
-          btn.classList.toggle("active", btn.id === targetType);
+      // Precarga agresiva
+      function preloadFrames() {
+        Object.entries(URLs).forEach(([key, url]) => {
+          const iframe = document.createElement("iframe");
+          iframe.style.display = "none";
+          iframe.src = url;
+          frameCache.set(key, iframe);
+          document.body.appendChild(iframe);
         });
+      }
+      preloadFrames();
 
-        // Mostrar loader y ocultar frame
+      // Cambio instantáneo de vista
+      async function switchSheet(type) {
+        if (currentFrame === type) return;
+
         loadingOverlay.classList.add("active");
-        frame.style.opacity = "0";
+        frameContainer.style.opacity = "0";
 
-        try {
-          // Cargar el frame con timeout de 5 segundos
-          await Promise.race([
-            new Promise((resolve) => {
-              frame.src = URLs[type];
-              frame.onload = resolve;
-            }),
-            new Promise((_, reject) =>
-              setTimeout(() => reject(new Error("Timeout")), 1000)
-            ),
-          ]);
-        } catch (error) {
-          console.error("Error loading frame:", error);
-        } finally {
-          // Ocultar loader y mostrar frame
-          loadingOverlay.classList.remove("active", "loaded");
-          frame.style.opacity = "1";
+        // Ocultar frame actual
+        if (currentFrame) {
+          frameCache.get(currentFrame).style.display = "none";
         }
+
+        // Mostrar nuevo frame del cache
+        const newFrame = frameCache.get(type);
+        newFrame.style.display = "block";
+        newFrame.style.opacity = "1";
+        frameContainer.innerHTML = "";
+        frameContainer.appendChild(newFrame);
+
+        // Simular carga para mejor experiencia
+        await new Promise((resolve) => setTimeout(resolve, 300));
+
+        loadingOverlay.classList.remove("active");
+        frameContainer.style.opacity = "1";
+        currentFrame = type;
       }
 
-      // Event listeners optimizados
+      // Configurar botones
       buttons.forEach((btn) => {
         btn.addEventListener("click", () => {
           const type = btn.id.replace("btn", "").toLowerCase();
-          if (type && URLs[type]) switchSheet(type);
+          if (!URLs[type]) return;
+
+          buttons.forEach((b) => b.classList.remove("active"));
+          btn.classList.add("active");
+          switchSheet(type);
         });
       });
 
-      // Carga inicial inmediata
-      frame.src = URLs.Diplomado;
+      // Carga inicial
+      switchSheet("diplomado");
+      document.getElementById("btnDiplomado").classList.add("active");
     </script>
   </body>
 </html>
