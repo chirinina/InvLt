@@ -787,27 +787,42 @@
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF();
 
-        // Título
-        doc.setFont("helvetica", "bold");
-        doc.setFontSize(16);
-        doc.text("Reporte de Registros - CCA", 105, 20, { align: "center" });
+      // Configuración del título con logo
+      doc.setFont("helvetica", "bold");
 
-        // Subtítulo con fecha
-        doc.setFontSize(11);
-        const fechaActual = new Date().toLocaleDateString();
-        doc.text(`Fecha de exportación: ${fechaActual}`, 105, 28, {
-          align: "center",
-        });
+      // Agregar logo (ajusta la ruta y dimensiones)
+      const imgData = 'https://i.ibb.co/RGNmT1vx/logo-esam.png'; // Tu imagen en base64 o URL
+      const logoWidth = 30; // Reducido de 55 a 40 (ancho del logo en mm)
+      const logoHeight = 7; // Reducido de 10 a 7 (alto del logo en mm)
+      const rightMargin = 6; // Margen derecho
+
+      // Posición del logo (esquina superior derecha)
+      doc.addImage(imgData, 'JPEG', doc.internal.pageSize.width - rightMargin - logoWidth, 12, logoWidth, logoHeight);
+
+      // Título centrado (se ajusta automáticamente al espacio del logo)
+      doc.setFontSize(16);
+      doc.text("Reporte de Registros - CCA", doc.internal.pageSize.width / 2, 20, { align: "center" });
+
+      // Subtítulo con fecha
+      doc.setFontSize(11);
+      const fechaActual = new Date().toLocaleDateString('es-MX', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric'
+      }).replace(/\//g, '-');
+      doc.text(`Fecha de exportación: ${fechaActual}`, doc.internal.pageSize.width / 2, 28, {
+        align: "center"
+      });
 
         // Datos
         const columns = [
           "ID",
           "Nombre",
-          "Carrera",
+          "Carrera/Grado",
           "Email",
           "Teléfono",
           "Grado",
-          "Fecha",
+          "Fecha y Hora",
         ];
         const data = registros.map((r) => [
           r.id,
@@ -830,7 +845,7 @@
             halign: "left",
           },
           headStyles: {
-            fillColor: [200, 0, 0],
+            fillColor: [0, 60, 120],   
             textColor: 255,
             fontStyle: "bold",
           },
