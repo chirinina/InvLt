@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CCA Estudiante | FEXPO 2024</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+    <script
+      src="https://kit.fontawesome.com/a2d9a66d3e.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body class="bg-gradient-to-br from-blue-50 to-indigo-50 min-h-screen">
+    <!-- Modo Registro -->
+    <div id="registroApp" class="container mx-auto p-4">
+      <div
+        class="max-w-2xl mx-auto bg-white rounded-2xl shadow-2xl p-8 transform transition-all duration-300 hover:shadow-3xl"
+      >
+        <div
+          class="max-w-2xl mx-auto bg-white rounded-2xl shadow-2xl p-6 transform transition-all duration-300 hover:shadow-3xl"
+        >
+          <div class="text-center mb-12">
+            <!-- Icono pequeño, sin fondo y elegante -->
+            <div class="inline-block mb-6">
+              <i
+                class="fas fa-user-graduate text-5xl text-blue-600 transform transition-all duration-300 hover:scale-105"
+              ></i>
+            </div>
+            <h1
+              class="text-4xl font-extrabold text-gray-800 mb-4 tracking-tight"
+            >
+              Registro de <span class="text-blue-600">CC</span
+              ><span class="text-yellow-500">A</span> Estudiante
+            </h1>
+            <p class="text-gray-600 text-lg font-medium mb-8">
+              FEXPO 2024 - Plataforma Académica Internacional
+            </p>
+          </div>
+        </div>
+        <br />
+
+        <form id="registroForm" class="space-y-10 animate-fade-in-down text-sm">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Campo Nombre -->
+            <div class="relative transition-all duration-500 group">
+              <label for="nombre" class="sr-only">Nombre completo</label>
+              <div
+                class="absolute left-4 top-1/2 -translate-y-1/2 text-blue-600 group-focus-within:text-blue-800 transition-all duration-300"
+              >
+                <i class="fas fa-user text-sm"></i>
+              </div>
+              <input
+                type="text"
+                id="nombre"
+                name="nombre"
+                required
+                pattern="[A-Za-zÁ-ú\s]{5,}"
+                placeholder="Nombre completo"
+                class="w-full pl-12 pr-4 py-3 border border-gray-300 bg-white rounded-xl shadow-md focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-300 transition-all duration-500 ease-in-out peer hover:shadow-xl hover:scale-[1.02]"
+              />
+              <span
+                class="absolute right-4 top-3 text-green-500 hidden peer-valid:block animate-pulse"
+              >
+                <i class="fas fa-check-circle text-sm"></i>
+              </span>
+            </div>
+
+            <!-- Campo Carrera -->
+            <div class="relative transition-all duration-500 group">
+              <label for="carrera" class="sr-only">Carrera</label>
+              <div
+                class="absolute left-4 top-1/2 -translate-y-1/2 text-blue-600 group-focus-within:text-blue-800 transition-all duration-300"
+              >
+                <i class="fas fa-briefcase text-sm"></i>
+              </div>
+              <input
+                type="text"
+                id="carrera"
+                name="carrera"
+                required
+                placeholder="Carrera/Área profesional"
+                class="w-full pl-12 pr-4 py-3 border border-gray-300 bg-white rounded-xl shadow-md focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-300 transition-all duration-500 ease-in-out hover:shadow-xl hover:scale-[1.02]"
+              />
+            </div>
+
+            <!-- Campo Email -->
+            <div class="relative transition-all duration-500 group">
+              <label for="email" class="sr-only">Correo electrónico</label>
+              <div
+                class="absolute left-4 top-1/2 -translate-y-1/2 text-blue-600 group-focus-within:text-blue-800 transition-all duration-300"
+              >
+                <i class="fas fa-envelope text-sm"></i>
+              </div>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                required
+                placeholder="Correo electrónico"
+                class="w-full pl-12 pr-4 py-3 border border-gray-300 bg-white rounded-xl shadow-md focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-300 transition-all duration-500 hover:shadow-xl hover:scale-[1.02]"
+              />
+            </div>
+
+            <!-- Campo Teléfono -->
+            <div class="relative transition-all duration-500 group">
+              <label for="telefono" class="sr-only">Teléfono</label>
+              <div
+                class="absolute left-4 top-1/2 -translate-y-1/2 text-blue-600 group-focus-within:text-blue-800 transition-all duration-300"
+              >
+                <i class="fas fa-mobile-alt text-sm"></i>
+              </div>
+              <input
+                type="tel"
+                id="telefono"
+                name="telefono"
+                required
+                pattern="[0-9+]{8,15}"
+                placeholder="Teléfono/WhatsApp"
+                class="w-full pl-12 pr-4 py-3 border border-gray-300 bg-white rounded-xl shadow-md focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-300 transition-all duration-500 hover:shadow-xl hover:scale-[1.02]"
+              />
+            </div>
+
+            <!-- Campo Grado -->
+            <div class="relative transition-all duration-500 group">
+              <label for="grado" class="sr-only">Grado académico</label>
+              <div
+                class="absolute left-4 top-1/2 -translate-y-1/2 text-blue-600 group-focus-within:text-blue-800 transition-all duration-300"
+              >
+                <i class="fas fa-graduation-cap text-sm"></i>
+              </div>
+              <select
+                id="grado"
+                name="grado"
+                required
+                class="w-full pl-12 pr-10 py-3 bg-white border border-gray-300 rounded-xl shadow-md focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-300 appearance-none transition-all duration-500 hover:shadow-xl hover:scale-[1.02]"
+              >
+                <option value="">Grado académico</option>
+                <option>Bachiller</option>
+                <option>Colegial</option>
+                <option>Universitario</option>
+                <option>Profesional</option>
+              </select>
+              <div
+                class="absolute right-4 top-1/2 -translate-y-1/2 text-blue-500 pointer-events-none"
+              >
+                <i class="fas fa-chevron-down text-xs"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- Botón -->
+          <div class="flex justify-center">
+            <button
+              type="submit"
+              class="bg-gradient-to-r from-blue-800 via-blue-600 to-yellow-400 text-white px-8 py-3 rounded-xl font-semibold shadow-md transition-all duration-300 hover:from-blue-900 hover:to-yellow-500 flex items-center gap-3 group"
+            >
+              <i
+                class="fas fa-user-circle text-yellow-400 group-hover:text-blue-500 transition-colors duration-300"
+              ></i>
+              Registrarme
+            </button>
+          </div>
+        </form>
+
+        <div class="mt-8 text-center">
+          <button
+            onclick="showAdmin()"
+            class="text-gray-600 hover:text-blue-700 font-medium flex items-center justify-center gap-2 animate-pulse"
+          >
+            <i class="fas fa-lock"></i>
+            <!-- admin -->
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modo Administrador -->
+    <div id="adminApp" class="container mx-auto p-4 hidden">
+      <div class="max-w-7xl mx-auto bg-white rounded-2xl shadow-2xl p-8">
+        <div
+          class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4"
+        >
+          <div
+            class="flex items-center gap-6 p-6 bg-white border-l-4 border-indigo-600 rounded-xl"
+          >
+            <div class="p-4">
+              <i class="fas fa-cogs text-3xl text-indigo-600"></i>
+            </div>
+            <div>
+              <h2 class="text-3xl font-semibold text-gray-900">
+                Panel de Administración
+              </h2>
+              <p class="text-lg text-gray-600 mt-1">
+                Registros Totales:
+                <span id="totalRegistros" class="font-semibold text-indigo-600"
+                  >0</span
+                >
+              </p>
+            </div>
+          </div>
+
+          <div class="flex gap-2">
+            <button
+              onclick="logoutAdmin()"
+              class="bg-gradient-to-r from-teal-500 to-indigo-500 text-white text-sm px-5 py-3 rounded-full hover:from-teal-600 hover:to-indigo-600 transition-all flex items-center gap-2 shadow-lg"
+            >
+              <i class="fas fa-power-off"></i>
+              Cerrar
+            </button>
+          </div>
+        </div>
+
+        <div class="mb-6 p-4 rounded-xl">
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <!-- Input Contraseña Administrativa -->
+            <div class="relative">
+              <div
+                class="absolute inset-y-0 left-0 flex items-center pl-3 text-blue-500"
+              >
+                <i class="fas fa-key"></i>
+              </div>
+              <input
+                type="password"
+                id="adminPassword"
+                class="w-full pl-10 pr-4 py-2 text-sm rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
+                placeholder="Contraseña administrativa"
+              />
+            </div>
+
+            <!-- Input de Búsqueda -->
+            <div class="relative">
+              <div
+                class="absolute inset-y-0 left-0 flex items-center pl-3 text-blue-500"
+              >
+                <i class="fas fa-search"></i>
+              </div>
+              <input
+                type="text"
+                id="searchInput"
+                class="w-full pl-10 pr-4 py-2 text-sm rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
+                placeholder="Buscar registros..."
+              />
+            </div>
+
+            <!-- Botones -->
+            <div class="flex gap-2 col-span-2 justify-center md:justify-start">
+              <button
+                onclick="loadRegistros()"
+                class="bg-emerald-600 text-white px-4 py-2 text-sm rounded-lg hover:bg-emerald-700 flex items-center gap-1 transition-transform transform hover:scale-105"
+              >
+                <i class="fas fa-sync text-sm"></i>
+                Actualizar
+              </button>
+
+              <button
+                onclick="exportToPDF()"
+                class="bg-red-600 text-white px-4 py-2 text-sm rounded-lg hover:bg-red-700 flex items-center gap-1 transition-transform transform hover:scale-105"
+              >
+                <i class="fas fa-file-pdf text-sm"></i>
+                PDF
+              </button>
+
+              <button
+                onclick="exportToJSON()"
+                class="bg-indigo-600 text-white px-4 py-2 text-sm rounded-lg hover:bg-indigo-700 flex items-center gap-1 transition-transform transform hover:scale-105"
+              >
+                <i class="fas fa-file-code text-sm"></i>
+                JSON
+              </button>
+
+              <button
+                onclick="toggleBackup()"
+                class="bg-amber-600 text-white px-4 py-2 text-sm rounded-lg hover:bg-amber-700 flex items-center gap-1 transition-transform transform hover:scale-105"
+              >
+                <i class="fas fa-database text-sm"></i>
+                Backup
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <!-- Total Registros -->
+          <div
+            class="bg-gray-50 p-5 rounded-xl shadow-2xl flex items-center gap-5"
+          >
+            <div class="bg-indigo-600 p-3 rounded-lg">
+              <i class="fas fa-list-alt text-xl text-white"></i>
+              <!-- Icono más profesional -->
+            </div>
+            <div>
+              <p class="text-gray-800 text-sm font-medium">Total Registros</p>
+              <p class="text-xl font-semibold text-gray-900" id="statsTotal">
+                0
+              </p>
+            </div>
+          </div>
+
+          <!-- Con Doctorado -->
+          <div
+            class="bg-gray-50 p-5 rounded-xl shadow-2xl flex items-center gap-5"
+          >
+            <div class="bg-teal-600 p-3 rounded-lg">
+              <i class="fas fa-user-md text-xl text-white"></i>
+              <!-- Icono más profesional -->
+            </div>
+            <div>
+              <p class="text-gray-800 text-sm font-medium">Con Doctorado</p>
+              <p
+                class="text-xl font-semibold text-gray-900"
+                id="statsDoctorado"
+              >
+                0
+              </p>
+            </div>
+          </div>
+
+          <!-- Con WhatsApp -->
+          <div
+            class="bg-gray-50 p-5 rounded-xl shadow-2xl flex items-center gap-5"
+          >
+            <div class="bg-green-600 p-3 rounded-lg">
+              <i class="fas fa-sms text-xl text-white"></i>
+              <!-- Icono más profesional -->
+            </div>
+            <div>
+              <p class="text-gray-800 text-sm font-medium">Con WhatsApp</p>
+              <p class="text-xl font-semibold text-gray-900" id="statsWhatsApp">
+                0
+              </p>
+            </div>
+          </div>
+
+          <!-- Último Registro -->
+          <div
+            class="bg-gray-50 p-5 rounded-xl shadow-2xl flex items-center gap-5"
+          >
+            <div class="bg-purple-600 p-3 rounded-lg">
+              <i class="fas fa-clock text-xl text-white"></i>
+              <!-- Icono más profesional -->
+            </div>
+            <div>
+              <p class="text-gray-800 text-sm font-medium">Último Registro</p>
+              <p class="text-xl font-semibold text-gray-900" id="statsLast">
+                -
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div
+          id="registrosList"
+          class="overflow-x-auto rounded-xl shadow-lg border border-gray-300 bg-white"
+        >
+          <table class="min-w-full table-auto text-sm">
+            <thead
+              class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white"
+            >
+              <tr>
+                <th
+                  class="px-4 py-3 text-left font-semibold uppercase cursor-pointer hover:bg-blue-500 transition-all"
+                  onclick="sortTable(0)"
+                >
+                  <i class="fas fa-user mr-2"></i>Nombre
+                  <i class="fas fa-sort ml-2"></i>
+                </th>
+                <th
+                  class="px-4 py-3 text-left font-semibold uppercase cursor-pointer hover:bg-blue-500 transition-all"
+                  onclick="sortTable(1)"
+                >
+                  <i class="fas fa-briefcase mr-2"></i>Carrera
+                  <i class="fas fa-sort ml-2"></i>
+                </th>
+                <th
+                  class="px-4 py-3 text-left font-semibold uppercase cursor-pointer hover:bg-blue-500 transition-all"
+                  onclick="sortTable(2)"
+                >
+                  <i class="fas fa-envelope mr-2"></i>Email
+                  <i class="fas fa-sort ml-2"></i>
+                </th>
+                <th
+                  class="px-4 py-3 text-left font-semibold uppercase cursor-pointer hover:bg-blue-500 transition-all"
+                  onclick="sortTable(3)"
+                >
+                  <i class="fas fa-phone mr-2"></i>Teléfono
+                  <i class="fas fa-sort ml-2"></i>
+                </th>
+                <th
+                  class="px-4 py-3 text-left font-semibold uppercase cursor-pointer hover:bg-blue-500 transition-all"
+                  onclick="sortTable(4)"
+                >
+                  <i class="fas fa-graduation-cap mr-2"></i>Grado
+                  <i class="fas fa-sort ml-2"></i>
+                </th>
+                <th class="px-4 py-3 text-left font-semibold uppercase">
+                  Acciones
+                </th>
+              </tr>
+            </thead>
+            <tbody id="registrosBody" class="divide-y divide-gray-200">
+              <!-- Aquí irán los registros dinámicamente -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Estilos adicionales para el diseño -->
+        <style>
+          /* Estilo mejorado de la tabla */
+          #registrosList {
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+          }
+
+          table th,
+          table td {
+            border-bottom: 1px solid #032653;
+            padding: 0.75rem 1rem; /* Mantener un padding elegante */
+          }
+
+          table tr:hover {
+            background-color: #03274b;
+            transition: background-color 0.2s ease;
+          }
+
+          /* Transición suave de color para los encabezados */
+          table th:hover {
+            background-color: #064775; /* Azul claro */
+            transform: scale(1.03);
+            transition: transform 0.3s ease, background-color 0.3s ease;
+          }
+
+          /* Estilo para las filas de la tabla */
+          table td {
+            padding: 0.75rem 1rem; /* Ajuste para mantener el diseño profesional */
+          }
+
+          /* Transición para las filas */
+          table tr:nth-child(even):hover {
+            background-color: #031935;
+          }
+
+          /* Estilo de botones para las acciones */
+          .acciones-btn {
+            padding: 0.5rem 1rem;
+            background-color: #2d3748;
+            color: white;
+            border-radius: 8px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+          }
+
+          .acciones-btn:hover {
+            background-color: #4c51bf;
+            transform: scale(1.05);
+          }
+
+          .acciones-btn:active {
+            transform: scale(1);
+          }
+        </style>
+      </div>
+    </div>
+
+    <!-- Modales y Notificaciones -->
+    <div
+      id="modalBackup"
+      class="fixed inset-0 bg-transparent hidden items-center justify-center p-4"
+    >
+      <div class="bg-white rounded-2xl p-8 max-w-md w-full animate-fade-in">
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="text-xl font-bold">Gestión de Copia</h3>
+          <button
+            onclick="toggleBackup()"
+            class="text-gray-500 hover:text-gray-700"
+          >
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="space-y-4">
+          <button
+            onclick="createBackup()"
+            class="w-full bg-blue-100 text-blue-600 p-4 rounded-xl hover:bg-blue-200 flex items-center gap-2"
+          >
+            <i class="fas fa-save"></i>
+            Crear Backup
+          </button>
+          <button
+            onclick="restoreBackup()"
+            class="w-full bg-green-100 text-green-600 p-4 rounded-xl hover:bg-green-200 flex items-center gap-2"
+          >
+            <i class="fas fa-history"></i>
+            Restaurar Backup
+          </button>
+          <button
+            onclick="downloadBackup()"
+            class="w-full bg-purple-100 text-purple-600 p-4 rounded-xl hover:bg-purple-200 flex items-center gap-2"
+          >
+            <i class="fas fa-download"></i>
+            Descargar Backup
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Sistema Avanzado con todas las funciones
+      const STORAGE_KEY = "CCA_registros_ultra";
+      const BACKUP_KEY = "CCA_backups";
+      const ADMIN_PASSWORD = "123";
+
+      let currentSort = { column: null, direction: "asc" };
+      let allRegistros = [];
+
+      function getRegistros() {
+        return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+      }
+
+      function saveRegistro(registro) {
+        const registros = getRegistros();
+
+        const nuevoRegistro = {
+          nombre: registro.get("nombre") || "No registrado",
+          carrera: registro.get("carrera") || "No registrado",
+          email: registro.get("email") || "No registrado",
+          telefono: registro.get("telefono") || "No registrado",
+          grado: registro.get("grado") || "No especificado",
+          id: Date.now(),
+          fecha: new Date().toLocaleString("es-ES", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+          }),
+        };
+
+        registros.push(nuevoRegistro);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(registros));
+        showToast("Registro exitoso", "success");
+        updateStats();
+      }
+
+      function loadRegistros() {
+        const password = document.getElementById("adminPassword").value;
+        if (password !== ADMIN_PASSWORD) {
+          showToast("Datos Iconrrecto", "error");
+          return;
+        }
+
+        allRegistros = getRegistros();
+        renderTable(allRegistros);
+        updateStats();
+      }
+
+      function renderTable(data) {
+        const tbody = document.getElementById("registrosBody");
+        tbody.innerHTML = "";
+
+        data.forEach((registro, index) => {
+          const tr = document.createElement("tr");
+          tr.className = `hover:bg-blue-50 ${
+            index % 2 === 0 ? "bg-gray-50" : "bg-white"
+          }`;
+          tr.innerHTML = `
+            <td class="px-6 py-4 font-medium">${registro.nombre}</td>
+            <td class="px-6 py-4">${registro.carrera}</td>
+            <td class="px-6 py-4">
+                <a href="mailto:${
+                  registro.email
+                }" class="text-blue-600 hover:underline">
+                    ${registro.email}
+                </a>
+            </td>
+            <td class="px-6 py-4">
+                <a href="tel:${
+                  registro.telefono
+                }" class="text-blue-600 hover:underline">
+                    ${registro.telefono}
+                </a>
+            </td>
+            <td class="px-6 py-4">
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm
+                    ${
+                      registro.grado === "Doctorado"
+                        ? "bg-green-100 text-green-800"
+                        : registro.grado === "Postdoctorado"
+                        ? "bg-purple-100 text-purple-800"
+                        : "bg-blue-100 text-blue-800"
+                    }">
+                    ${registro.grado}
+                </span>
+            </td>
+            <td class="px-6 py-4">
+                <button onclick="deleteRegistro(${
+                  registro.id
+                })" class="text-red-500 hover:text-red-700">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </td>
+        `;
+          tbody.appendChild(tr);
+        });
+
+        document.getElementById("totalRegistros").textContent = data.length;
+      }
+
+      function searchRegistros() {
+        const searchTerm = document
+          .getElementById("searchInput")
+          .value.toLowerCase();
+        const filtered = allRegistros.filter((registro) =>
+          Object.values(registro).some((value) =>
+            String(value).toLowerCase().includes(searchTerm)
+          )
+        );
+        renderTable(filtered);
+      }
+
+      function sortTable(columnIndex) {
+        const columns = ["nombre", "carrera", "email", "telefono", "grado"];
+        const columnKey = columns[columnIndex];
+
+        currentSort.direction =
+          currentSort.column === columnKey
+            ? currentSort.direction === "asc"
+              ? "desc"
+              : "asc"
+            : "asc";
+
+        currentSort.column = columnKey;
+
+        const sorted = [...allRegistros].sort((a, b) => {
+          const valA = a[columnKey].toLowerCase();
+          const valB = b[columnKey].toLowerCase();
+          return currentSort.direction === "asc"
+            ? valA.localeCompare(valB)
+            : valB.localeCompare(valA);
+        });
+
+        renderTable(sorted);
+      }
+
+      function toggleBackup() {
+        document.getElementById("modalBackup").classList.toggle("hidden");
+      }
+
+      function createBackup() {
+        const registros = getRegistros();
+        const backups = JSON.parse(localStorage.getItem(BACKUP_KEY)) || [];
+        const backup = {
+          fecha: new Date().toISOString(),
+          data: registros,
+        };
+        backups.push(backup);
+        localStorage.setItem(BACKUP_KEY, JSON.stringify(backups));
+        showToast("Backup creado exitosamente", "success");
+      }
+
+      function restoreBackup() {
+        const backups = JSON.parse(localStorage.getItem(BACKUP_KEY)) || [];
+        if (backups.length === 0) {
+          showToast("No hay backups disponibles", "error");
+          return;
+        }
+        const lastBackup = backups[backups.length - 1];
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(lastBackup.data));
+        loadRegistros();
+        showToast("Backup restaurado", "success");
+      }
+
+      function downloadBackup() {
+        const backups = JSON.parse(localStorage.getItem(BACKUP_KEY)) || [];
+        if (backups.length === 0) {
+          showToast("No hay backups para descargar", "error");
+          return;
+        }
+        const blob = new Blob([JSON.stringify(backups, null, 2)], {
+          type: "application/json",
+        });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `backup_CCA_${new Date().toISOString()}.json`;
+        a.click();
+      }
+
+      function updateStats() {
+        const registros = getRegistros();
+        document.getElementById("statsTotal").textContent = registros.length;
+        document.getElementById("statsDoctorado").textContent =
+          registros.filter((r) => r.grado.includes("Doctorado")).length;
+        document.getElementById("statsWhatsApp").textContent = registros.filter(
+          (r) => r.telefono.startsWith("+")
+        ).length;
+        document.getElementById("statsLast").textContent =
+          registros.length > 0 ? registros[registros.length - 1].fecha : "-";
+      }
+
+      function deleteRegistro(id) {
+        if (confirm("¿Eliminar este registro permanentemente?")) {
+          const registros = getRegistros().filter((r) => r.id !== id);
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(registros));
+          loadRegistros();
+          showToast("Registro eliminado", "warning");
+        }
+      }
+
+      function showToast(message, type = "info") {
+        const toast = document.createElement("div");
+        const colors = {
+          success: "bg-green-100 text-green-700",
+          error: "bg-red-100 text-red-700",
+          warning: "bg-yellow-100 text-yellow-700",
+          info: "bg-blue-100 text-blue-700",
+        };
+
+        toast.className = `fixed top-4 right-4 p-4 rounded-xl shadow-lg flex items-center gap-3 animate-slide-in ${colors[type]}`;
+        toast.innerHTML = `
+              <i class="fas fa-${
+                type === "success" ? "check-circle" : "exclamation-triangle"
+              }"></i>
+              ${message}
+          `;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 3000);
+      }
+
+      document
+        .getElementById("registroForm")
+        .addEventListener("submit", (e) => {
+          e.preventDefault();
+          const formData = new FormData(e.target);
+          saveRegistro(formData);
+          e.target.reset();
+        });
+
+      document
+        .getElementById("searchInput")
+        .addEventListener("input", searchRegistros);
+
+      async function exportToPDF() {
+        const registros = getRegistros(); // Asegúrate que esta función ya está definida
+        if (registros.length === 0)
+          return showToast("No hay datos para exportar", "error"); // Asegúrate que esta función esté definida
+
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+
+        // Título
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(16);
+        doc.text("Reporte de Registros - CCA", 105, 20, { align: "center" });
+
+        // Subtítulo con fecha
+        doc.setFontSize(11);
+        const fechaActual = new Date().toLocaleDateString();
+        doc.text(`Fecha de exportación: ${fechaActual}`, 105, 28, {
+          align: "center",
+        });
+
+        // Datos
+        const columns = [
+          "ID",
+          "Nombre",
+          "Carrera",
+          "Email",
+          "Teléfono",
+          "Grado",
+          "Fecha",
+        ];
+        const data = registros.map((r) => [
+          r.id,
+          r.nombre,
+          r.carrera,
+          r.email,
+          r.telefono,
+          r.grado,
+          r.fecha,
+        ]);
+
+        // Tabla con estilo profesional
+        doc.autoTable({
+          startY: 35,
+          head: [columns],
+          body: data,
+          styles: {
+            font: "helvetica",
+            fontSize: 9,
+            halign: "left",
+          },
+          headStyles: {
+            fillColor: [200, 0, 0],
+            textColor: 255,
+            fontStyle: "bold",
+          },
+          alternateRowStyles: { fillColor: [245, 245, 245] },
+          margin: { left: 15, right: 15 },
+          theme: "striped",
+        });
+
+        // Pie de página con número de páginas
+        const pageCount = doc.internal.getNumberOfPages();
+        for (let i = 1; i <= pageCount; i++) {
+          doc.setPage(i);
+          doc.setFontSize(10);
+          doc.setTextColor(150);
+          doc.text(`Página ${i} de ${pageCount}`, 195, 290, { align: "right" });
+        }
+
+        // Descargar archivo PDF
+        doc.save("registros_CCA.pdf");
+      }
+
+      function exportToJSON() {
+        const registros = getRegistros();
+        if (registros.length === 0)
+          return showToast("No hay datos para exportar", "error");
+
+        const jsonString = JSON.stringify(registros, null, 2);
+        const blob = new Blob([jsonString], { type: "application/json" });
+        downloadFile(blob, "registros_CCA.json");
+      }
+
+      function downloadFile(content, filename) {
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(content);
+        link.download = filename;
+        link.click();
+      }
+
+      function showAdmin() {
+        document.getElementById("registroApp").classList.add("hidden");
+        document.getElementById("adminApp").classList.remove("hidden");
+      }
+
+      function logoutAdmin() {
+        document.getElementById("adminApp").classList.add("hidden");
+        document.getElementById("registroApp").classList.remove("hidden");
+        document.getElementById("adminPassword").value = "";
+      }
+    </script>
+
+    <style>
+      @keyframes fade-in {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes slide-in {
+        from {
+          transform: translateX(100%);
+        }
+        to {
+          transform: translateX(0);
+        }
+      }
+
+      .animate-fade-in {
+        animation: fade-in 0.3s ease-out;
+      }
+      .animate-slide-in {
+        animation: slide-in 0.3s ease-out;
+      }
+
+      input:invalid:not(:placeholder-shown) {
+        border-color: #f87171;
+        background-color: #fef2f2;
+      }
+
+      input:valid:not(:placeholder-shown) {
+        border-color: #34d399;
+        background-color: #f0fdf4;
+      }
+
+      #registrosList thead th {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+      }
+    </style>
+  </body>
+</html>
