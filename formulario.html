@@ -487,21 +487,21 @@
             class="w-full bg-blue-100 text-blue-600 p-4 rounded-xl hover:bg-blue-200 flex items-center gap-2"
           >
             <i class="fas fa-save"></i>
-            Crear Backup
+            Crear Copia
           </button>
           <button
             onclick="restoreBackup()"
             class="w-full bg-green-100 text-green-600 p-4 rounded-xl hover:bg-green-200 flex items-center gap-2"
           >
             <i class="fas fa-history"></i>
-            Restaurar Backup
+            Restaurar Copia
           </button>
           <button
             onclick="downloadBackup()"
             class="w-full bg-purple-100 text-purple-600 p-4 rounded-xl hover:bg-purple-200 flex items-center gap-2"
           >
             <i class="fas fa-download"></i>
-            Descargar Backup
+            Descargar Copia
           </button>
         </div>
       </div>
@@ -685,7 +685,7 @@
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
-        a.download = `backup_CCA_${new Date().toISOString()}.json`;
+        a.download = `Copia_CCA_${new Date().toISOString()}.json`;
         a.click();
       }
 
