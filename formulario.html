@@ -168,6 +168,7 @@
               >
                 <option value="" disabled selected class="text-gray-400">Seleccione una opción</option>
                 <option class="text-gray-800">Profesional</option>
+                <option class="text-gray-800">Posgrado</option>
                 <option class="text-gray-800">Licenciatura</option>
                 <option class="text-gray-800">Maestria</option>
                 <option class="text-gray-800">Doctorado</option>
@@ -263,7 +264,7 @@
                 type="password"
                 id="adminPassword"
                 class="w-full pl-10 pr-4 py-2 text-sm rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
-                placeholder="Contraseña administrativa"
+                placeholder="Ingrese la contraseña"
               />
             </div>
 
@@ -463,7 +464,7 @@
 
           /* Transición suave de color para los encabezados */
           table th:hover {
-            background-color: #064775; /* Azul claro */
+            background-color: #000203; /* Azul claro */
             transform: scale(1.03);
             transition: transform 0.3s ease, background-color 0.3s ease;
           }
@@ -488,7 +489,7 @@
           }
 
           .acciones-btn:hover {
-            background-color: #4c51bf;
+            background-color: #02053d;
             transform: scale(1.05);
           }
 
@@ -544,7 +545,7 @@
       // Sistema Avanzado con todas las funciones
       const STORAGE_KEY = "ESAM_registros_ultra";
       const BACKUP_KEY = "ESAM_backups";
-      const ADMIN_PASSWORD = "123";
+      const ADMIN_PASSWORD = "admin";
 
       let currentSort = { column: null, direction: "asc" };
       let allRegistros = [];
@@ -581,7 +582,7 @@
       function loadRegistros() {
         const password = document.getElementById("adminPassword").value;
         if (password !== ADMIN_PASSWORD) {
-          showToast("Datos Iconrrecto", "error");
+          showToast("No es correcto los datos", "error");
           return;
         }
 
@@ -744,24 +745,24 @@
       }
 
       function showToast(message, type = "info") {
-        const toast = document.createElement("div");
-        const colors = {
-          success: "bg-green-100 text-green-700",
-          error: "bg-red-100 text-red-700",
-          warning: "bg-yellow-100 text-yellow-700",
-          info: "bg-blue-100 text-blue-700",
-        };
+      const toast = document.createElement("div");
+      const colors = {
+        success: "bg-green-100 text-green-600",
+        error: "bg-red-100 text-red-600",
+        warning: "bg-yellow-100 text-yellow-600",
+        info: "bg-blue-100 text-blue-600",
+      };
 
-        toast.className = `fixed top-4 right-4 p-4 rounded-xl shadow-lg flex items-center gap-3 animate-slide-in ${colors[type]}`;
-        toast.innerHTML = `
-              <i class="fas fa-${
-                type === "success" ? "check-circle" : "exclamation-triangle"
-              }"></i>
-              ${message}
-          `;
-        document.body.appendChild(toast);
-        setTimeout(() => toast.remove(), 3000);
-      }
+      toast.className = `fixed top-3 right-3 px-3 py-2 rounded-md shadow-sm text-xs font-medium flex items-center gap-1.5 animate-slide-in ${colors[type]}`;
+      
+      toast.innerHTML = `
+        <i class="fas fa-${type === "success" ? "check-circle" : "exclamation-circle"} text-[10px]"></i>
+        ${message}
+      `;
+      
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 2500);
+    }
 
       document
         .getElementById("registroForm")
