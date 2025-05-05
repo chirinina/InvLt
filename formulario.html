@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CCA Estudiante | FEXPO 2024</title>
+    <title>ESAM | FEXPO 2025</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
@@ -35,11 +35,11 @@
             <h1
               class="text-4xl font-extrabold text-gray-800 mb-4 tracking-tight"
             >
-              Registro de <span class="text-blue-600">CC</span
-              ><span class="text-yellow-500">A</span> Estudiante
+              Registro de <span class="text-blue-600">Esa</span
+              ><span class="text-yellow-500">m</span> Docencia
             </h1>
             <p class="text-gray-600 text-lg font-medium mb-8">
-              Fexpo 2024 - Lugar de encuentro
+              Fexpo 2025 - Lugar de encuentro
             </p>
           </div>
         </div>
@@ -545,8 +545,8 @@
 
     <script>
       // Sistema Avanzado con todas las funciones
-      const STORAGE_KEY = "CCA_registros_ultra";
-      const BACKUP_KEY = "CCA_backups";
+      const STORAGE_KEY = "ESAM_registros_ultra";
+      const BACKUP_KEY = "ESAM_backups";
       const ADMIN_PASSWORD = "123";
 
       let currentSort = { column: null, direction: "asc" };
@@ -721,7 +721,7 @@
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
-        a.download = `Copia_CCA_${new Date().toISOString()}.json`;
+        a.download = `Copia_ESAM_${new Date().toISOString()}.json`;
         a.click();
       }
 
@@ -801,7 +801,7 @@
 
       // Título centrado (se ajusta automáticamente al espacio del logo)
       doc.setFontSize(16);
-      doc.text("Reporte de Registros - CCA", doc.internal.pageSize.width / 2, 20, { align: "center" });
+      doc.text("Reporte de Registros - ESAM", doc.internal.pageSize.width / 2, 20, { align: "center" });
 
       // Subtítulo con fecha
       doc.setFontSize(11);
@@ -864,7 +864,7 @@
         }
 
         // Descargar archivo PDF
-        doc.save("registros_CCA.pdf");
+        doc.save("registros_ESAM.pdf");
       }
 
       function exportToJSON() {
@@ -874,7 +874,7 @@
 
         const jsonString = JSON.stringify(registros, null, 2);
         const blob = new Blob([jsonString], { type: "application/json" });
-        downloadFile(blob, "registros_CCA.json");
+        downloadFile(blob, "registros_ESAM.json");
       }
 
       function downloadFile(content, filename) {
