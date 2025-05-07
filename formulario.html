@@ -19,6 +19,7 @@
     />
   </head>
   <body class="bg-gradient-to-br from-blue-50 to-indigo-50 min-h-screen">
+    
     <!-- Modo Registro -->
     <div id="registroApp" class="container mx-auto p-1">
       <div
@@ -326,13 +327,35 @@
                   <div class="absolute inset-y-0 left-0 flex items-center pl-3 text-blue-500">
                     <i class="fas fa-key"></i>
                   </div>
+                
                   <input
                     type="password"
                     id="adminPassword"
-                    class="w-full pl-10 pr-4 py-2 text-sm rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
+                    class="w-full pl-10 pr-10 py-2 text-sm rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
                     placeholder="Contraseña"
                   />
+                
+                  <!-- Icono ver/ocultar contraseña (sin afectar diseño) -->
+                  <div
+                    class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 cursor-pointer"
+                    onclick="togglePasswordVisibility()"
+                    style="background: none; border: none;"
+                  >
+                    <i id="toggleIcon" class="fas fa-eye"></i>
+                  </div>
                 </div>
+                
+                <script>
+                  function togglePasswordVisibility() {
+                    const input = document.getElementById('adminPassword');
+                    const icon = document.getElementById('toggleIcon');
+                    const isPassword = input.type === 'password';
+                    input.type = isPassword ? 'text' : 'password';
+                    icon.classList.toggle('fa-eye');
+                    icon.classList.toggle('fa-eye-slash');
+                  }
+                </script>
+                
 
                 <!-- Input de Búsqueda -->
                 <div class="relative">
@@ -489,7 +512,64 @@
               </tbody>
             </table>
           </div>
+          <style>
+          /* Animaciones clave para entradas desde izquierda y derecha */
+          @keyframes slideInFromLeft {
+            0% {
+              opacity: 0;
+              transform: translateX(-80px) scale(0.96);
+            }
+            100% {
+              opacity: 1;
+              transform: translateX(0) scale(1);
+            }
+          }
 
+          @keyframes slideInFromRight {
+            0% {
+              opacity: 0;
+              transform: translateX(80px) scale(0.96);
+            }
+            100% {
+              opacity: 1;
+              transform: translateX(0) scale(1);
+            }
+          }
+
+          /* Aplicar animación general al contenedor */
+          #adminApp {
+            animation: slideInFromLeft 0.8s ease-out forwards;
+          }
+
+          /* Cuerpo del panel */
+          #adminApp > div {
+            animation: slideInFromRight 1s ease-out forwards;
+          }
+
+          /* Secciones internas (como estadísticas, controles, encabezados) */
+          #adminApp .grid > div:nth-child(odd) {
+            animation: slideInFromLeft 0.9s ease-out;
+          }
+
+          #adminApp .grid > div:nth-child(even) {
+            animation: slideInFromRight 0.9s ease-out;
+          }
+
+          /* Tabla de registros entra desde la izquierda */
+          #registrosList {
+            animation: slideInFromLeft 1s ease-out;
+            animation-delay: 0.2s;
+          }
+
+          /* Transiciones suaves en todos los elementos */
+          #adminApp *,
+          #adminApp *::before,
+          #adminApp *::after {
+            transition: all 0.3s ease-in-out;
+            will-change: transform, opacity;
+          }
+
+          </style>
 
             <!-- Estilos adicionales para el diseño -->
             <style>
