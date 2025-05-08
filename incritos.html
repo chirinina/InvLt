@@ -135,75 +135,104 @@
               <div
                 class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 md:gap-6"
               >
-                <div class="space-y-2 sm:space-y-3 md:space-y-4">
+                <div class="space-y-4">
+                  <!-- Nombres -->
                   <div>
-                    <label
-                      class="block text-xs sm:text-sm font-medium text-gray-700 mb-1"
+                    <label class="block text-sm font-medium text-gray-700 mb-1"
                       >Nombres *</label
                     >
                     <input
                       type="text"
                       id="nombres"
                       required
-                      class="w-full px-3 py-2 sm:px-3 sm:py-2.5 md:px-4 md:py-3 text-xs sm:text-sm bg-gray-50 border border-gray-200 rounded-lg text-gray-800 placeholder-gray-400 focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                      class="w-full px-4 py-3 text-sm bg-gray-50 border border-gray-200 rounded-lg text-gray-800 placeholder-gray-400 focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                      placeholder="Ingrese sus nombres"
                     />
                   </div>
+
+                  <!-- Apellidos -->
                   <div>
-                    <label
-                      class="block text-xs sm:text-sm font-medium text-gray-700 mb-1"
+                    <label class="block text-sm font-medium text-gray-700 mb-1"
                       >Apellidos *</label
                     >
-                    <div class="flex gap-2 sm:gap-3 md:gap-4">
+                    <div class="flex gap-4">
                       <input
                         type="text"
                         id="apellido1"
                         required
-                        class="w-full px-3 py-2 sm:px-3 sm:py-2.5 md:px-4 md:py-3 text-xs sm:text-sm bg-gray-50 border border-gray-200 rounded-lg text-gray-800 placeholder-gray-400 focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                        class="w-full px-4 py-3 text-sm bg-gray-50 border border-gray-200 rounded-lg text-gray-800 placeholder-gray-400 focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
                         placeholder="Primer apellido"
                       />
                       <input
                         type="text"
                         id="apellido2"
-                        class="w-full px-3 py-2 sm:px-3 sm:py-2.5 md:px-4 md:py-3 text-xs sm:text-sm bg-gray-50 border border-gray-200 rounded-lg text-gray-800 placeholder-gray-400 focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                        class="w-full px-4 py-3 text-sm bg-gray-50 border border-gray-200 rounded-lg text-gray-800 placeholder-gray-400 focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
                         placeholder="Segundo apellido"
                       />
                     </div>
                   </div>
-                  <div class="grid grid-cols-2 gap-2 sm:gap-3 md:gap-4">
-                    <div>
-                      <label
-                        class="block text-xs sm:text-sm font-medium text-gray-700 mb-1"
-                        >Documento *</label
+
+                  <!-- CI y Extensión abreviado -->
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1"
+                      >Carnet de Identidad *</label
+                    >
+                    <div class="flex gap-4">
+                      <input
+                        type="number"
+                        id="documento"
+                        required
+                        class="w-full px-4 py-3 text-sm bg-gray-50 border border-gray-200 rounded-lg text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-0 focus:border-yellow-500"
+                        placeholder="N° CI"
+                      />
+                      <select
+                        id="extension"
+                        required
+                        class="w-24 px-3 py-3 text-sm bg-gray-50 border border-gray-200 rounded-lg text-gray-800 focus:outline-none focus:ring-0 focus:border-yellow-500"
                       >
-                      <div class="flex gap-1 sm:gap-2">
-                        <input
-                          type="number"
-                          id="documento"
-                          required
-                          class="w-full px-3 py-2 sm:px-3 sm:py-2.5 md:px-4 md:py-3 text-xs sm:text-sm bg-gray-50 border border-gray-200 rounded-lg text-gray-800 placeholder-gray-400 focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
-                        />
-                        <input
-                          type="text"
-                          id="extension"
-                          class="w-14 sm:w-16 md:w-20 px-2 py-2 sm:px-3 sm:py-2.5 md:px-4 md:py-3 text-xs sm:text-sm bg-gray-50 border border-gray-200 rounded-lg text-gray-800 placeholder-gray-400 focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
-                          placeholder="Ext."
-                        />
-                      </div>
+                        <option value="">Ext.</option>
+                        <option value="Tj">Tj</option>
+                        <option value="Ch">Ch</option>
+                        <option value="Pt">Pt</option>
+                        <option value="Sc">Sc</option>
+                        <option value="Be">Be</option>
+                        <option value="Pa">Pa</option>
+                        <option value="Lp">Lp</option>
+                        <option value="Or">Or</option>
+                        <option value="Cb">Cb</option>
+                        <option value="Ext">Ext</option>
+                      </select>
                     </div>
+                  </div>
+
+                  <!-- Género y Dirección -->
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <label
-                        class="block text-xs sm:text-sm font-medium text-gray-700 mb-1"
+                        class="block text-sm font-medium text-gray-700 mb-1"
                         >Género *</label
                       >
                       <select
                         id="genero"
                         required
-                        class="w-full px-3 py-2 sm:px-3 sm:py-2.5 md:px-4 md:py-3 text-xs sm:text-sm bg-gray-50 border border-gray-200 rounded-lg text-gray-800 focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                        class="w-full px-4 py-3 text-sm bg-gray-50 border border-gray-200 rounded-lg text-gray-800 focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
                       >
                         <option value="">Seleccionar...</option>
                         <option value="Masculino">Masculino</option>
                         <option value="Femenino">Femenino</option>
                       </select>
+                    </div>
+                    <div>
+                      <label
+                        class="block text-sm font-medium text-gray-700 mb-1"
+                        >Dirección</label
+                      >
+                      <input
+                        type="text"
+                        id="direccion"
+                        class="w-full px-4 py-3 text-sm bg-gray-50 border border-gray-200 rounded-lg text-gray-800 placeholder-gray-400 focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                        placeholder="Zona o barrio"
+                      />
                     </div>
                   </div>
                 </div>
