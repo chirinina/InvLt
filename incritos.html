@@ -102,27 +102,29 @@
             </p>
           </div>
 
-          <form id="formulario" class="space-y-8">
-            <!-- Tabs de Navegación -->
-            <div class="flex space-x-4 border-b border-gray-200">
+          <form id="formulario" class="space-y-4 sm:space-y-6 md:space-y-8">
+            <!-- Tabs de Navegación - Super Responsivo -->
+            <div
+              class="flex overflow-x-auto scrollbar-hide pb-1 sm:pb-2 space-x-2 sm:space-x-4 border-b border-gray-200"
+            >
               <button
                 type="button"
                 data-tab="personal"
-                class="tab-button active px-6 py-3 text-gray-600 hover:text-yellow-700 transition-all font-medium border-b-2 border-yellow-500"
+                class="tab-button active shrink-0 px-3 py-2 sm:px-4 sm:py-2.5 md:px-6 md:py-3 text-xs sm:text-sm md:text-base text-gray-600 hover:text-yellow-700 transition-all font-medium border-b-2 border-yellow-500"
               >
                 Datos Personales
               </button>
               <button
                 type="button"
                 data-tab="academico"
-                class="tab-button px-6 py-3 text-gray-600 hover:text-yellow-700 transition-all font-medium"
+                class="tab-button shrink-0 px-3 py-2 sm:px-4 sm:py-2.5 md:px-6 md:py-3 text-xs sm:text-sm md:text-base text-gray-600 hover:text-yellow-700 transition-all font-medium"
               >
                 Formación Académica
               </button>
               <button
                 type="button"
                 data-tab="contacto"
-                class="tab-button px-6 py-3 text-gray-600 hover:text-yellow-700 transition-all font-medium"
+                class="tab-button shrink-0 px-3 py-2 sm:px-4 sm:py-2.5 md:px-6 md:py-3 text-xs sm:text-sm md:text-base text-gray-600 hover:text-yellow-700 transition-all font-medium"
               >
                 Contacto y Cursos
               </button>
@@ -130,69 +132,73 @@
 
             <!-- Contenido de Tabs -->
             <div class="tab-content active" data-tab="personal">
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="space-y-4">
+              <div
+                class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 md:gap-6"
+              >
+                <div class="space-y-2 sm:space-y-3 md:space-y-4">
                   <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2"
+                    <label
+                      class="block text-xs sm:text-sm font-medium text-gray-700 mb-1"
                       >Nombres *</label
                     >
                     <input
                       type="text"
                       id="nombres"
                       required
-                      class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-800 placeholder-gray-400 focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                      class="w-full px-3 py-2 sm:px-3 sm:py-2.5 md:px-4 md:py-3 text-xs sm:text-sm bg-gray-50 border border-gray-200 rounded-lg text-gray-800 placeholder-gray-400 focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
                     />
                   </div>
                   <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2"
+                    <label
+                      class="block text-xs sm:text-sm font-medium text-gray-700 mb-1"
                       >Apellidos *</label
                     >
-                    <div class="flex gap-4">
+                    <div class="flex gap-2 sm:gap-3 md:gap-4">
                       <input
                         type="text"
                         id="apellido1"
                         required
-                        class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-800 placeholder-gray-400 focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                        class="w-full px-3 py-2 sm:px-3 sm:py-2.5 md:px-4 md:py-3 text-xs sm:text-sm bg-gray-50 border border-gray-200 rounded-lg text-gray-800 placeholder-gray-400 focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
                         placeholder="Primer apellido"
                       />
                       <input
                         type="text"
                         id="apellido2"
-                        class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-800 placeholder-gray-400 focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                        class="w-full px-3 py-2 sm:px-3 sm:py-2.5 md:px-4 md:py-3 text-xs sm:text-sm bg-gray-50 border border-gray-200 rounded-lg text-gray-800 placeholder-gray-400 focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
                         placeholder="Segundo apellido"
                       />
                     </div>
                   </div>
-                  <div class="grid grid-cols-2 gap-4">
+                  <div class="grid grid-cols-2 gap-2 sm:gap-3 md:gap-4">
                     <div>
                       <label
-                        class="block text-sm font-medium text-gray-700 mb-2"
+                        class="block text-xs sm:text-sm font-medium text-gray-700 mb-1"
                         >Documento *</label
                       >
-                      <div class="flex gap-2">
+                      <div class="flex gap-1 sm:gap-2">
                         <input
                           type="number"
                           id="documento"
                           required
-                          class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-800 placeholder-gray-400 focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                          class="w-full px-3 py-2 sm:px-3 sm:py-2.5 md:px-4 md:py-3 text-xs sm:text-sm bg-gray-50 border border-gray-200 rounded-lg text-gray-800 placeholder-gray-400 focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
                         />
                         <input
                           type="text"
                           id="extension"
-                          class="w-20 px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-800 placeholder-gray-400 focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                          class="w-14 sm:w-16 md:w-20 px-2 py-2 sm:px-3 sm:py-2.5 md:px-4 md:py-3 text-xs sm:text-sm bg-gray-50 border border-gray-200 rounded-lg text-gray-800 placeholder-gray-400 focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
                           placeholder="Ext."
                         />
                       </div>
                     </div>
                     <div>
                       <label
-                        class="block text-sm font-medium text-gray-700 mb-2"
+                        class="block text-xs sm:text-sm font-medium text-gray-700 mb-1"
                         >Género *</label
                       >
                       <select
                         id="genero"
                         required
-                        class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-800 focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                        class="w-full px-3 py-2 sm:px-3 sm:py-2.5 md:px-4 md:py-3 text-xs sm:text-sm bg-gray-50 border border-gray-200 rounded-lg text-gray-800 focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
                       >
                         <option value="">Seleccionar...</option>
                         <option value="Masculino">Masculino</option>
@@ -202,48 +208,51 @@
                   </div>
                 </div>
 
-                <div class="space-y-4">
+                <div class="space-y-2 sm:space-y-3 md:space-y-4">
                   <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2"
+                    <label
+                      class="block text-xs sm:text-sm font-medium text-gray-700 mb-1"
                       >Fecha Nacimiento *</label
                     >
                     <input
                       type="date"
                       id="fechaNacimiento"
                       required
-                      class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-800 focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                      class="w-full px-3 py-2 sm:px-3 sm:py-2.5 md:px-4 md:py-3 text-xs sm:text-sm bg-gray-50 border border-gray-200 rounded-lg text-gray-800 focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
                     />
                   </div>
                   <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2"
+                    <label
+                      class="block text-xs sm:text-sm font-medium text-gray-700 mb-1"
                       >Ubicación *</label
                     >
-                    <div class="grid grid-cols-2 gap-4">
+                    <div class="grid grid-cols-2 gap-2 sm:gap-3 md:gap-4">
                       <input
                         type="text"
                         id="departamento"
                         required
-                        class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-800 placeholder-gray-400 focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                        class="w-full px-3 py-2 sm:px-3 sm:py-2.5 md:px-4 md:py-3 text-xs sm:text-sm bg-gray-50 border border-gray-200 rounded-lg text-gray-800 placeholder-gray-400 focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
                         placeholder="Departamento"
                       />
                       <input
                         type="text"
                         id="ciudad"
                         required
-                        class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-800 placeholder-gray-400 focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                        class="w-full px-3 py-2 sm:px-3 sm:py-2.5 md:px-4 md:py-3 text-xs sm:text-sm bg-gray-50 border border-gray-200 rounded-lg text-gray-800 placeholder-gray-400 focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
                         placeholder="Ciudad"
                       />
                     </div>
                   </div>
                   <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2"
+                    <label
+                      class="block text-xs sm:text-sm font-medium text-gray-700 mb-1"
                       >Dirección *</label
                     >
                     <input
                       type="text"
                       id="direccion"
                       required
-                      class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-800 placeholder-gray-400 focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                      class="w-full px-3 py-2 sm:px-3 sm:py-2.5 md:px-4 md:py-3 text-xs sm:text-sm bg-gray-50 border border-gray-200 rounded-lg text-gray-800 placeholder-gray-400 focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
                     />
                   </div>
                 </div>
@@ -252,16 +261,19 @@
 
             <!-- Sección Académica -->
             <div class="tab-content hidden" data-tab="academico">
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="space-y-4">
+              <div
+                class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 md:gap-6"
+              >
+                <div class="space-y-2 sm:space-y-3 md:space-y-4">
                   <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2"
+                    <label
+                      class="block text-xs sm:text-sm font-medium text-gray-700 mb-1"
                       >Grado Académico *</label
                     >
                     <select
                       id="grado"
                       required
-                      class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-800 focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                      class="w-full px-3 py-2 sm:px-3 sm:py-2.5 md:px-4 md:py-3 text-xs sm:text-sm bg-gray-50 border border-gray-200 rounded-lg text-gray-800 focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
                     >
                       <option value="">Seleccionar...</option>
                       <option value="Licenciatura">Licenciatura</option>
@@ -271,37 +283,40 @@
                     </select>
                   </div>
                   <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2"
+                    <label
+                      class="block text-xs sm:text-sm font-medium text-gray-700 mb-1"
                       >Profesión *</label
                     >
                     <input
                       type="text"
                       id="profesion"
                       required
-                      class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-800 placeholder-gray-400 focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                      class="w-full px-3 py-2 sm:px-3 sm:py-2.5 md:px-4 md:py-3 text-xs sm:text-sm bg-gray-50 border border-gray-200 rounded-lg text-gray-800 placeholder-gray-400 focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
                     />
                   </div>
                 </div>
-                <div class="space-y-4">
+                <div class="space-y-2 sm:space-y-3 md:space-y-4">
                   <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2"
+                    <label
+                      class="block text-xs sm:text-sm font-medium text-gray-700 mb-1"
                       >Institución de Egreso *</label
                     >
                     <input
                       type="text"
                       id="institucion"
                       required
-                      class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-800 placeholder-gray-400 focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                      class="w-full px-3 py-2 sm:px-3 sm:py-2.5 md:px-4 md:py-3 text-xs sm:text-sm bg-gray-50 border border-gray-200 rounded-lg text-gray-800 placeholder-gray-400 focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
                     />
                   </div>
                   <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2"
+                    <label
+                      class="block text-xs sm:text-sm font-medium text-gray-700 mb-1"
                       >Año de Egreso</label
                     >
                     <input
                       type="number"
                       id="anoEgreso"
-                      class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-800 placeholder-gray-400 focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                      class="w-full px-3 py-2 sm:px-3 sm:py-2.5 md:px-4 md:py-3 text-xs sm:text-sm bg-gray-50 border border-gray-200 rounded-lg text-gray-800 placeholder-gray-400 focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
                     />
                   </div>
                 </div>
@@ -310,31 +325,35 @@
 
             <!-- Sección Contacto y Cursos -->
             <div class="tab-content hidden" data-tab="contacto">
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="space-y-4">
+              <div
+                class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 md:gap-6"
+              >
+                <div class="space-y-2 sm:space-y-3 md:space-y-4">
                   <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2"
+                    <label
+                      class="block text-xs sm:text-sm font-medium text-gray-700 mb-1"
                       >Contacto *</label
                     >
                     <input
                       type="tel"
                       id="telefono"
                       required
-                      class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-800 placeholder-gray-400 focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                      class="w-full px-3 py-2 sm:px-3 sm:py-2.5 md:px-4 md:py-3 text-xs sm:text-sm bg-gray-50 border border-gray-200 rounded-lg text-gray-800 placeholder-gray-400 focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
                       placeholder="Teléfono Móvil"
                     />
                     <input
                       type="email"
                       id="email"
                       required
-                      class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-800 placeholder-gray-400 focus:ring-2 focus:ring-yellow-500 focus:border-transparent mt-4"
+                      class="w-full px-3 py-2 sm:px-3 sm:py-2.5 md:px-4 md:py-3 text-xs sm:text-sm bg-gray-50 border border-gray-200 rounded-lg text-gray-800 placeholder-gray-400 focus:ring-2 focus:ring-yellow-500 focus:border-transparent mt-2 sm:mt-3 md:mt-4"
                       placeholder="Correo Electrónico"
                     />
                   </div>
                 </div>
 
-                <div class="space-y-4">
-                  <label class="block text-sm font-medium text-gray-700 mb-2"
+                <div class="space-y-2 sm:space-y-3 md:space-y-4">
+                  <label
+                    class="block text-xs sm:text-sm font-medium text-gray-700 mb-1"
                     >Selección de Cursos *</label
                   >
                   <div class="relative">
@@ -342,7 +361,7 @@
                       id="cursos"
                       multiple
                       required
-                      class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-800 focus:ring-2 focus:ring-yellow-500 focus:border-transparent h-48"
+                      class="w-full px-3 py-2 sm:px-3 sm:py-2.5 md:px-4 md:py-3 text-xs sm:text-sm bg-gray-50 border border-gray-200 rounded-lg text-gray-800 focus:ring-2 focus:ring-yellow-500 focus:border-transparent h-28 sm:h-36 md:h-48"
                     >
                       <option value="Transformación Digital">
                         1. Transformación Digital
@@ -391,7 +410,7 @@
                       class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none"
                     >
                       <svg
-                        class="h-6 w-6 text-gray-400"
+                        class="h-3 w-3 sm:h-4 sm:w-4 md:h-6 md:w-6 text-gray-400"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -405,31 +424,33 @@
                       </svg>
                     </div>
                   </div>
-                  <p class="text-sm text-gray-500">
+                  <p class="text-xxs sm:text-xs md:text-sm text-gray-500">
                     Mantén presionado Ctrl para seleccionar múltiples cursos
                   </p>
                 </div>
               </div>
             </div>
 
-            <div class="flex justify-between pt-8 border-t border-gray-200">
+            <div
+              class="flex justify-between pt-4 sm:pt-6 md:pt-8 border-t border-gray-200"
+            >
               <button
                 type="button"
                 onclick="previousTab()"
-                class="bg-gray-200 text-gray-700 px-8 py-3 rounded-lg hover:bg-gray-300 transition-all hidden font-medium"
+                class="bg-gray-200 text-gray-700 px-3 py-1.5 sm:px-4 sm:py-2 md:px-8 md:py-3 rounded-lg hover:bg-gray-300 transition-all hidden font-medium text-xs sm:text-sm md:text-base"
               >
                 Anterior
               </button>
               <button
                 type="button"
                 onclick="nextTab()"
-                class="bg-yellow-500 text-gray-900 px-8 py-3 rounded-lg hover:bg-yellow-600 transition-all ml-auto font-medium"
+                class="bg-yellow-500 text-gray-900 px-3 py-1.5 sm:px-4 sm:py-2 md:px-8 md:py-3 rounded-lg hover:bg-yellow-600 transition-all ml-auto font-medium text-xs sm:text-sm md:text-base"
               >
                 Siguiente
               </button>
               <button
                 type="submit"
-                class="bg-yellow-600 text-white px-8 py-3 rounded-lg hover:bg-yellow-700 transition-all hidden font-medium"
+                class="bg-yellow-600 text-white px-3 py-1.5 sm:px-4 sm:py-2 md:px-8 md:py-3 rounded-lg hover:bg-yellow-700 transition-all hidden font-medium text-xs sm:text-sm md:text-base"
               >
                 Enviar Registro
               </button>
